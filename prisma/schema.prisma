@@ -12,7 +12,7 @@ generator typegraphql {
 datasource db {
   provider = "postgresql"
   url      = "postgresql://postgres:admin@localhost:5432/postgres"
-}
+}    //to env
 
 enum UserKind {
   NORMAL
@@ -24,4 +24,12 @@ model User {
   email String  @unique
   age   Int?
   kind  UserKind
+  posts Post[]
+}
+
+model Post {
+  title String @unique
+  author User? @relation(fields: [authorId], references: [id])
+  authorId String?
+  content Json
 }

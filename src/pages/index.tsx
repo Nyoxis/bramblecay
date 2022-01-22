@@ -1,6 +1,6 @@
-import { useQuery, useMutation } from 'urql';
-import { withUrqlClient } from 'next-urql';
-import { useState } from 'react';
+import { useQuery, useMutation } from 'urql'
+import { withUrqlClient } from 'next-urql'
+import { useState } from 'react'
 
 enum Kind {
   ADMIN = 'ADMIN',
@@ -9,17 +9,23 @@ enum Kind {
 
 const Index = () => {
   const [result, refetch] = useQuery({
-    query: `{ users { id email age kind }}`
+    query: `#graphql
+      {
+        users { id email age kind }
+      }
+    `
   })
   //$id: String, $email: String!, $age: Int!, $kind: UserKind!
   //{id: $id, email: $email, age: $age, kind: $kind}
-  const [updateResult, update] = useMutation(`
-    mutation ($data: UserCreateInput!) {
-      createUser (data: $data) {
-        id
+  const [updateResult, update] = useMutation(
+    `#graphql
+      mutation ($data: UserCreateInput!) {
+        createUser (data: $data) {
+          id
+        }
       }
-    }
-  `)
+    `
+  )
   const [state, setState] = useState({
     id: '',
     email: '',
