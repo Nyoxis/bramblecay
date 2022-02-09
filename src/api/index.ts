@@ -1,29 +1,29 @@
 import 'reflect-metadata'
-import express from 'express'
-import cors from 'cors'
+import Fastify from 'fastify'
 
-const app = express()
+import graphqlService from './graphqService'
+import fastifyCors from 'fastify-cors'
+import authPlugin from './auth/authPlugin'
+
+const app = Fastify({
+  logger: true
+})
 const port = 5000  //to env
+const site = 'http://localhost:3000'
 
-import graphqlServer from './graphqlServer'
-import passportInitialize from './passportInitialize'
-
-async function bootstrap() {
-
-  app.use(cors({
-    origin: ['http://localhost:3000', 'https://studio.apollographql.com'] //to env
-  }))
-
-  graphqlServer(app)
-  passportInitialize(app)
-
-  app.get('/', (request, response) => { //dev
-    response.send(`
-      <div>Hello world!</div>
-    `)
+const start = async () => {
+  app.register(fastifyCors, { 
+    origin: site
   })
-
-  app.listen(port, () => console.log(`Running on port ${port}`))
+  app.register(graphqlService)
+  app.register(authPlugin)
+  try {
+    //localhost
+    await app.listen(port)
+  } catch (err) {
+    app.log.error(err)
+    process.exit(1)
+  }
 }
 
-bootstrap()
+start()

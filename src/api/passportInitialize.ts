@@ -35,6 +35,19 @@ function passportInitialize(app: Application) {
     done(null, User(id))
   })
 
+  passport.use(new GitHubStrategy({
+    //to env
+    clientID: 'a7ac62e92c742814a537',
+    clientSecret: '0e5c4fe3dda6c762f7f8bd09a88f2672873b1989',
+    callbackURL: "http://localhost:3000/"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return done(err, user);
+    })
+  }
+  ))
+
   app.use(passport.initialize())
   app.use(passport.session())
 }
