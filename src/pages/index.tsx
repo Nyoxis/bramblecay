@@ -11,7 +11,7 @@ const Index = () => {
   const [result, refetch] = useQuery({
     query: `#graphql
       {
-        users { id email age kind }
+        users { id email firstName lastName kind }
       }
     `
   })
@@ -29,7 +29,9 @@ const Index = () => {
   const [state, setState] = useState({
     id: '',
     email: '',
-    age: 0,
+    password: '',
+    firstName: '',
+    lastName: '',
     kind: Kind.NORMAL
   })
 
@@ -45,10 +47,10 @@ const Index = () => {
       <div>Welcome to Next.js!</div>
       <form onSubmit={handleSubmit}>
         <label>
-          name:
+          id:
           <input
             type="text"
-            name="name"
+            name="id"
             value={state.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{id: e.target.value}})}
           />
@@ -63,35 +65,55 @@ const Index = () => {
           />
         </label>
         <label>
-          age:
+          firstName:
           <input
-            type="number"
-            step="1"
-            name="age"
-            value={state.age}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{age: parseInt(e.target.value)}})}
+            type="text"
+            name="firstName"
+            value={state.firstName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{firstName: e.target.value}})}
+          />
+        </label>
+        <label>
+          lastName:
+          <input
+            type="text"
+            name="lastName"
+            value={state.lastName}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{lastName: e.target.value}})}
+          />
+        </label>
+        <label>
+          password:
+          <input
+            type="password"
+            name="password"
+            value={state.password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{password: e.target.value}})}
           />
         </label>
         <div>
           <input
             type="radio"
             checked={state.kind===Kind.NORMAL}
+            id="NormalKind"
             name="kind"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: Kind.NORMAL}})}
           />
-          <label>normal</label>
+          <label htmlFor="NormalKind">normal</label>
           <input
             type="radio"
             checked={state.kind===Kind.ADMIN}
+            id="AdminKind"
             name="kind"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: Kind.ADMIN}})}
           />
-          <label>admin</label>
+          <label htmlFor="AdminKind">admin</label>
         </div>
         <input type="submit" value="Отправить" />
       </form>
       <div>
-        error: {updateResult.error?.message}
+        updateError: {updateResult.error?.message}
+        fetchError: {result.error?.message}
       </div>
       <div>{
         result.data?.users.map(user => {
@@ -107,5 +129,5 @@ const Index = () => {
 }
 export default withUrqlClient((_ssrExchange, ctx) => ({
   // ...add your Client options here
-  url: 'http://localhost:5000/graphql',
+  url: '/api/graphql',
 }))(Index)

@@ -2,18 +2,28 @@ import fastifyPlugin from 'fastify-plugin'
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
 import passport from 'fastify-passport'
 import LocalStrategy from 'passport-local'
-import { users } from './authPlugin'
+
+
+async function findUserbyEmail(email: string) {
+  return 
+}
 
 const dummyStrategyPlugin: FastifyPluginAsync = async (fastify) => {
-  passport.use(new LocalStrategy(function verify(username, password, done) {
-    const user = users.find(user => user.email === username)
-    if (!user) return done(new Error('wrong username'))
-    if (user.password === password) return done(null, user)
-    else return done(new Error('wrong password'))
+  passport.use(new LocalStrategy(async function verify(username, password, done) {
+    let user
+    try {
+      user = await fastify.prisma.user.findUnique({where: {email: username}})
+      if (!user) return done(null, false, {message: 'No user by that email'})
+    } catch (e) {
+      return done(e)
+    }
+    if (user.password !== password) return done(null, false, {message: 'Not a matching password'})
+    
+    return done(null, user)
   }))
   fastify.post(
-    '/login/password',
-    { preValidation: passport.authenticate('local', {}) },
+    '/api/login',
+    { preValidation: passport.authenticate('local', { successRedirect: '/user', authInfo: false }) },
     () => {}
   )
 }

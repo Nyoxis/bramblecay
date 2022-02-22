@@ -1,23 +1,32 @@
 import { useQuery, useMutation } from 'urql'
 import { withUrqlClient } from 'next-urql'
 import { useState } from 'react'
+import Router from 'next/router'
 
 const Login = () => {
-const [state, setState] = useState({
-  username: '',
-  password: ''
-})
-const handleSubmit = (event) => {
-  event.preventDefault()
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(state)
+  const [state, setState] = useState({
+    username: '',
+    password: ''
+  })
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const requestOptions: RequestInit = {
+      method: 'POST',
+      redirect: 'follow',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state)
+    }
+    fetch('/api/login', requestOptions)
+      .then(response => {
+        if (!response.ok) return Promise.reject(response)
+        Router.push('/user')
+      })
+      .catch((err) => {
+        err.json()
+          .then(jsonerr => console.log(jsonerr))
+      })
   }
-  fetch('http://localhost:5000/login/password', requestOptions)
-    .then(response => response.json())
-    .then(data => alert(data.message))
-}
   return (
      <div>
       <form onSubmit={handleSubmit}>
@@ -52,5 +61,5 @@ const handleSubmit = (event) => {
 
 export default withUrqlClient((_ssrExchange, ctx) => ({
   // ...add your Client options here
-  url: 'http://localhost:5000/graphql',
+  url: '/api/graphql',
 }))(Login)

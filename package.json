@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc && next build",
     "start": "node . $ next start",
-    "dev": "nodemon src/api/index.ts",
-    "site:dev": "next dev"
+    "dev": "nodemon src/api/index.ts"
   },
   "repository": {
     "type": "git",
@@ -20,14 +19,18 @@
   },
   "homepage": "https://github.com/Nyoxis/bramblecay#readme",
   "dependencies": {
-    "@fastify/session": "^6.4.0",
+    "@mgcrea/fastify-session": "^0.15.2",
+    "@mgcrea/fastify-session-redis-store": "^0.11.0",
     "class-validator": "^0.13.2",
     "fastify": "^3.27.1",
     "fastify-cookie": "^5.5.0",
     "fastify-cors": "^6.0.2",
+    "fastify-nextjs": "^7.2.0",
     "fastify-passport": "^0.5.0",
     "fastify-plugin": "^3.0.0",
+    "fastify-prisma-client": "^2.1.0",
     "graphql": "^15.8.0",
+    "ioredis": "^4.28.5",
     "mercurius": "^8.12.0",
     "next": "^12.0.7",
     "next-urql": "^3.3.2",

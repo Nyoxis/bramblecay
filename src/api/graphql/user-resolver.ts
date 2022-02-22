@@ -6,22 +6,18 @@ import {
   Authorized
 } from 'type-graphql'
 
+import { ContextType } from './graphqlService'
 import { User } from '@generated/type-graphql'
-
-interface Context {
-  getUser(): User,
-  logout(): void
-}
 
 @Resolver()
 class UserResolvers {
   @Authorized()
-  @Query(() => String)
-  currentUser (@Ctx() context: Context) {
-    return 'Authorized user'
+  @Query(() => User)
+  currentUser (@Ctx() context: ContextType) {
+    return context.getUser()
   }
   @Mutation()
-  logout (@Ctx() context: Context):boolean {
+  logout (@Ctx() context: ContextType):boolean {
     context.logout()
     return true
   }

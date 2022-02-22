@@ -22,8 +22,10 @@ enum UserKind {
 model User {
   id    String  @default(cuid()) @id @unique
   email String  @unique
-  age   Int?
-  kind  UserKind
+  firstName String
+  lastName String
+  password String
+  kind UserKind @default(NORMAL)
   posts Post[]
 }
 

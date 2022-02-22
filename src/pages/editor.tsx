@@ -126,5 +126,5 @@ const Editor = () => {
 
 export default withUrqlClient((_ssrExchange, ctx) => ({
   // ...add your Client options here
-  url: 'http://localhost:5000/graphql',
+  url: '/api/graphql',
 }))(Editor)

@@ -3,21 +3,18 @@ import { buildSchema } from 'type-graphql'
 import mercurius from 'mercurius'
 import * as path from 'path'
 
-import { PrismaClient } from '@prisma/client'
-
 import { resolvers } from '@generated/type-graphql'
 import UserResolver from './user-resolver'
-import { customAuthChecker} from './auth/authPlugin'
+import { customAuthChecker} from '../auth/authPlugin'
 
-import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyPluginAsync, FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 
-const prisma = new PrismaClient()
-const context = async (request: FastifyRequest, reply: FastifyReply) => {
+const context = async function (request: FastifyRequest, reply: FastifyReply) {
   // Return an object that will be available in your GraphQL resolvers
   return {
-    prisma: prisma,
+    prisma: request.prisma,
     getUser: () => request.user,
-    logout: () => request.logout(),
+    logout: () => request.logOut(),
   }
 }
 
@@ -29,12 +26,11 @@ const graphqlService: FastifyPluginAsync = async (fastify) => {
   })
 
   fastify.register(mercurius, {
+    path: '/api/graphql',
     schema,
     context: context
   })
-  
 }
-type UnboxPromise<T extends Promise<any>> = T extends Promise<infer U> ? U: never;
-export type СontextType = UnboxPromise<ReturnType<typeof context>>
-//wrapping is not necessary
+//extract Context type from promise
+export type ContextType = Awaited<ReturnType<typeof context>>
 export default fastifyPlugin(graphqlService)

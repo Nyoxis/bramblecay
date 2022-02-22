@@ -14,11 +14,9 @@ type AggregatePost {
 }
 
 type AggregateUser {
-  _avg: UserAvgAggregate
   _count: UserCountAggregate
   _max: UserMaxAggregate
   _min: UserMinAggregate
-  _sum: UserSumAggregate
 }
 
 input EnumUserKindFieldUpdateOperationsInput {
@@ -40,33 +38,6 @@ input EnumUserKindWithAggregatesFilter {
   in: [UserKind!]
   not: NestedEnumUserKindWithAggregatesFilter
   notIn: [UserKind!]
-}
-
-input IntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
-  notIn: [Int!]
-}
-
-input IntNullableWithAggregatesFilter {
-  _avg: NestedFloatNullableFilter
-  _count: NestedIntNullableFilter
-  _max: NestedIntNullableFilter
-  _min: NestedIntNullableFilter
-  _sum: NestedIntNullableFilter
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableWithAggregatesFilter
-  notIn: [Int!]
 }
 
 """
@@ -122,17 +93,6 @@ input NestedEnumUserKindWithAggregatesFilter {
   notIn: [UserKind!]
 }
 
-input NestedFloatNullableFilter {
-  equals: Float
-  gt: Float
-  gte: Float
-  in: [Float!]
-  lt: Float
-  lte: Float
-  not: NestedFloatNullableFilter
-  notIn: [Float!]
-}
-
 input NestedIntFilter {
   equals: Int
   gt: Int
@@ -152,22 +112,6 @@ input NestedIntNullableFilter {
   lt: Int
   lte: Int
   not: NestedIntNullableFilter
-  notIn: [Int!]
-}
-
-input NestedIntNullableWithAggregatesFilter {
-  _avg: NestedFloatNullableFilter
-  _count: NestedIntNullableFilter
-  _max: NestedIntNullableFilter
-  _min: NestedIntNullableFilter
-  _sum: NestedIntNullableFilter
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableWithAggregatesFilter
   notIn: [Int!]
 }
 
@@ -236,14 +180,6 @@ input NestedStringWithAggregatesFilter {
   not: NestedStringWithAggregatesFilter
   notIn: [String!]
   startsWith: String
-}
-
-input NullableIntFieldUpdateOperationsInput {
-  decrement: Int
-  divide: Int
-  increment: Int
-  multiply: Int
-  set: Int
 }
 
 type Post {
@@ -447,7 +383,7 @@ input PostWhereUniqueInput {
 type Query {
   aggregatePost(cursor: PostWhereUniqueInput, orderBy: [PostOrderByWithRelationInput!], skip: Int, take: Int, where: PostWhereInput): AggregatePost!
   aggregateUser(cursor: UserWhereUniqueInput, orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): AggregateUser!
-  currentUser: String!
+  currentUser: User!
   findFirstPost(cursor: PostWhereUniqueInput, distinct: [PostScalarFieldEnum!], orderBy: [PostOrderByWithRelationInput!], skip: Int, take: Int, where: PostWhereInput): Post
   findFirstUser(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): User
   groupByPost(by: [PostScalarFieldEnum!]!, having: PostScalarWhereWithAggregatesInput, orderBy: [PostOrderByWithAggregationInput!], skip: Int, take: Int, where: PostWhereInput): [PostGroupBy!]!
@@ -540,19 +476,13 @@ input StringWithAggregatesFilter {
 
 type User {
   _count: UserCount
-  age: Int
   email: String!
+  firstName: String!
   id: String!
   kind: UserKind!
+  lastName: String!
+  password: String!
   posts(cursor: PostWhereUniqueInput, distinct: [PostScalarFieldEnum!], orderBy: [PostOrderByWithRelationInput!], skip: Int, take: Int, where: PostWhereInput): [Post!]!
-}
-
-type UserAvgAggregate {
-  age: Float
-}
-
-input UserAvgOrderByAggregateInput {
-  age: SortOrder
 }
 
 type UserCount {
@@ -561,32 +491,40 @@ type UserCount {
 
 type UserCountAggregate {
   _all: Int!
-  age: Int!
   email: Int!
+  firstName: Int!
   id: Int!
   kind: Int!
+  lastName: Int!
+  password: Int!
 }
 
 input UserCountOrderByAggregateInput {
-  age: SortOrder
   email: SortOrder
+  firstName: SortOrder
   id: SortOrder
   kind: SortOrder
+  lastName: SortOrder
+  password: SortOrder
 }
 
 input UserCreateInput {
-  age: Int
   email: String!
+  firstName: String!
   id: String
-  kind: UserKind!
+  kind: UserKind
+  lastName: String!
+  password: String!
   posts: PostCreateNestedManyWithoutAuthorInput
 }
 
 input UserCreateManyInput {
-  age: Int
   email: String!
+  firstName: String!
   id: String
-  kind: UserKind!
+  kind: UserKind
+  lastName: String!
+  password: String!
 }
 
 input UserCreateNestedOneWithoutPostsInput {
@@ -601,22 +539,24 @@ input UserCreateOrConnectWithoutPostsInput {
 }
 
 input UserCreateWithoutPostsInput {
-  age: Int
   email: String!
+  firstName: String!
   id: String
-  kind: UserKind!
+  kind: UserKind
+  lastName: String!
+  password: String!
 }
 
 type UserGroupBy {
-  _avg: UserAvgAggregate
   _count: UserCountAggregate
   _max: UserMaxAggregate
   _min: UserMinAggregate
-  _sum: UserSumAggregate
-  age: Int
   email: String!
+  firstName: String!
   id: String!
   kind: UserKind!
+  lastName: String!
+  password: String!
 }
 
 enum UserKind {
@@ -625,50 +565,60 @@ enum UserKind {
 }
 
 type UserMaxAggregate {
-  age: Int
   email: String
+  firstName: String
   id: String
   kind: UserKind
+  lastName: String
+  password: String
 }
 
 input UserMaxOrderByAggregateInput {
-  age: SortOrder
   email: SortOrder
+  firstName: SortOrder
   id: SortOrder
   kind: SortOrder
+  lastName: SortOrder
+  password: SortOrder
 }
 
 type UserMinAggregate {
-  age: Int
   email: String
+  firstName: String
   id: String
   kind: UserKind
+  lastName: String
+  password: String
 }
 
 input UserMinOrderByAggregateInput {
-  age: SortOrder
   email: SortOrder
+  firstName: SortOrder
   id: SortOrder
   kind: SortOrder
+  lastName: SortOrder
+  password: SortOrder
 }
 
 input UserOrderByWithAggregationInput {
-  _avg: UserAvgOrderByAggregateInput
   _count: UserCountOrderByAggregateInput
   _max: UserMaxOrderByAggregateInput
   _min: UserMinOrderByAggregateInput
-  _sum: UserSumOrderByAggregateInput
-  age: SortOrder
   email: SortOrder
+  firstName: SortOrder
   id: SortOrder
   kind: SortOrder
+  lastName: SortOrder
+  password: SortOrder
 }
 
 input UserOrderByWithRelationInput {
-  age: SortOrder
   email: SortOrder
+  firstName: SortOrder
   id: SortOrder
   kind: SortOrder
+  lastName: SortOrder
+  password: SortOrder
   posts: PostOrderByRelationAggregateInput
 }
 
@@ -678,43 +628,43 @@ input UserRelationFilter {
 }
 
 enum UserScalarFieldEnum {
-  age
   email
+  firstName
   id
   kind
+  lastName
+  password
 }
 
 input UserScalarWhereWithAggregatesInput {
   AND: [UserScalarWhereWithAggregatesInput!]
   NOT: [UserScalarWhereWithAggregatesInput!]
   OR: [UserScalarWhereWithAggregatesInput!]
-  age: IntNullableWithAggregatesFilter
   email: StringWithAggregatesFilter
+  firstName: StringWithAggregatesFilter
   id: StringWithAggregatesFilter
   kind: EnumUserKindWithAggregatesFilter
-}
-
-type UserSumAggregate {
-  age: Int
-}
-
-input UserSumOrderByAggregateInput {
-  age: SortOrder
+  lastName: StringWithAggregatesFilter
+  password: StringWithAggregatesFilter
 }
 
 input UserUpdateInput {
-  age: NullableIntFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   kind: EnumUserKindFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
-  age: NullableIntFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   kind: EnumUserKindFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
 }
 
 input UserUpdateOneWithoutPostsInput {
@@ -728,10 +678,12 @@ input UserUpdateOneWithoutPostsInput {
 }
 
 input UserUpdateWithoutPostsInput {
-  age: NullableIntFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
   id: StringFieldUpdateOperationsInput
   kind: EnumUserKindFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
 }
 
 input UserUpsertWithoutPostsInput {
@@ -743,10 +695,12 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  age: IntNullableFilter
   email: StringFilter
+  firstName: StringFilter
   id: StringFilter
   kind: EnumUserKindFilter
+  lastName: StringFilter
+  password: StringFilter
   posts: PostListRelationFilter
 }
 
