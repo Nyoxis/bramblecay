@@ -1,6 +1,5 @@
-import { useQuery, useMutation } from 'urql'
-import { withUrqlClient } from 'next-urql'
 import { useState } from 'react'
+import { useQuery, useMutation } from '../gqless'
 
 enum Kind {
   ADMIN = 'ADMIN',
@@ -8,24 +7,10 @@ enum Kind {
 }
 
 const Index = () => {
-  const [result, refetch] = useQuery({
-    query: `#graphql
-      {
-        users { id email firstName lastName kind }
-      }
-    `
-  })
+  const query = useQuery()
   //$id: String, $email: String!, $age: Int!, $kind: UserKind!
   //{id: $id, email: $email, age: $age, kind: $kind}
-  const [updateResult, update] = useMutation(
-    `#graphql
-      mutation ($data: UserCreateInput!) {
-        createUser (data: $data) {
-          id
-        }
-      }
-    `
-  )
+  //const [updateResult, update] = useMutation({ suspense: false })
   const [state, setState] = useState({
     id: '',
     email: '',
@@ -37,9 +22,7 @@ const Index = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(state)
-    update({data: state})
-    refetch()
+    //update({data: state})
   }
 
   return (
@@ -112,22 +95,17 @@ const Index = () => {
         <input type="submit" value="Отправить" />
       </form>
       <div>
-        updateError: {updateResult.error?.message}
-        fetchError: {result.error?.message}
+        {
+          query.users().map(user => {
+            return (
+              <div key={user.id}>
+                <p>{user.id} {user.email}</p>
+              </div>
+            )
+          })
+        }
       </div>
-      <div>{
-        result.data?.users.map(user => {
-          return (
-            <div key={user.id}>
-              <p>{user.id} {user.email}</p>
-            </div>
-          )
-        })
-      }</div>
     </div>
   )
 }
-export default withUrqlClient((_ssrExchange, ctx) => ({
-  // ...add your Client options here
-  url: '/api/graphql',
-}))(Index)
+export default Index

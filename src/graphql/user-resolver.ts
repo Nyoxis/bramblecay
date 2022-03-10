@@ -3,21 +3,22 @@ import {
   Query,
   Mutation,
   Ctx,
-  Authorized
+  Authorized,
 } from 'type-graphql'
 
-import { ContextType } from './graphqlService'
 import { User } from '@generated/type-graphql'
+import { ContextType } from './typegraphql'
 
 @Resolver()
 class UserResolvers {
   @Authorized()
   @Query(() => User)
-  currentUser (@Ctx() context: ContextType) {
+  currentUser(@Ctx() context: ContextType) {
     return context.getUser()
   }
+  
   @Mutation()
-  logout (@Ctx() context: ContextType):boolean {
+  logout(@Ctx() context: ContextType):boolean {
     context.logout()
     return true
   }

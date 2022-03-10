@@ -1,5 +1,3 @@
-import { useQuery, useMutation } from 'urql'
-import { withUrqlClient } from 'next-urql'
 import { useState } from 'react'
 import Router from 'next/router'
 
@@ -59,7 +57,4 @@ const Login = () => {
   )
 }
 
-export default withUrqlClient((_ssrExchange, ctx) => ({
-  // ...add your Client options here
-  url: '/api/graphql',
-}))(Login)
+export default Login

@@ -29,7 +29,7 @@ const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomE
 
     return !!match
   }
-
+  
   editor.isCodeBlockActive = () => {
     const [match] = Editor.nodes(editor, {
       match: (n: Element) => n.type === 'code',
@@ -37,7 +37,7 @@ const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomE
 
     return !!match
   }
-
+  
   editor.toggleBoldMark = () => {
     Transforms.setNodes(
       editor,
@@ -45,7 +45,7 @@ const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomE
       { match: (n: Text) => Text.isText(n), split: true }
     )
   }
-
+  
   editor.toggleCodeBlock = () => {
     Transforms.setNodes(
       editor,
@@ -53,7 +53,7 @@ const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomE
       { match: (n: Element) => Editor.isBlock(editor, n) }
     )
   }
-
+  
   return editor
 }
 

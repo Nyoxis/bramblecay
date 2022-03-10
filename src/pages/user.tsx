@@ -1,52 +1,24 @@
-import { useQuery, useMutation } from 'urql'
-import { withUrqlClient } from 'next-urql'
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
+import { useQuery, useMutation } from '../gqless'
 
 const User = () => {
-  const [result, refetch] = useQuery({
-    query: `#graphql
-      {
-        currentUser {
-          id
-          email
-          firstName
-          lastName
-        }
-      }
-    `
-  })
-  const [logoutResult, logout] = useMutation(`#graphql
-    mutation {
-      logout
-    }
-  `)
-
+  const query = useQuery()
+  const user = query.currentUser
   const handleLogout = () => {
-    logout()
-      .then(result => {
-        if (result.error) throw result.error
-        if (result.data?.logout) Router.push('/login')
-      })
   }
   return (
     <div>
         userPage
       <ul>
-        <li>{result.data?.currentUser.id}</li>
-        <li>{result.data?.currentUser.email}</li>
-        <li>{result.data?.currentUser.firstName}</li>
-        <li>{result.data?.currentUser.lastName}</li>
+        <li>{user.id}</li>
+        <li>{user.email}</li>
+        <li>{user.firstName}</li>
+        <li>{user.lastName}</li>
       </ul>
-      <div>
-        {result.error?.message}
-      </div>
       <button onClick={handleLogout}>logout</button>
     </div>
   )
 }
 
-export default withUrqlClient((_ssrExchange, ctx) => ({
-  // ...add your Client options here
-  url: '/api/graphql',
-}))(User)
+export default User

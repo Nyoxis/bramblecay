@@ -1,19 +1,15 @@
-import { PrismaClient } from '@prisma/client';
-import 'reflect-metadata'
 import Fastify from 'fastify'
 import nextjs from 'fastify-nextjs'
 import prismaClient from 'fastify-prisma-client'
 
-import graphqlService from './graphql/graphqlService'
+import graphqlService from './graphqlService'
 import fastifyCors from 'fastify-cors'
 import authPlugin from './auth/authPlugin'
-
 
 const app = Fastify({
   logger: true
 })
 const port = 5000  //to env
-const site = 'http://localhost:3000'
 
 const start = async () => {
   /*

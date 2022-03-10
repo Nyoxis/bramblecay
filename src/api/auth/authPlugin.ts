@@ -10,15 +10,14 @@ import RedisStore from '@mgcrea/fastify-session-redis-store'
 import githubOAuth2Plugin from './githubOAuth2Plugin'
 import dummyStrategyPlugin from './dummyStrategy'
 
-import { AuthChecker } from 'type-graphql'
-import { ContextType } from '../graphql/graphqlService'
+
 import { User } from '@generated/type-graphql'
 
 declare module 'fastify' {
   interface PassportUser extends User {}
 }
 
-declare module "fastify" {
+declare module 'fastify' {
   interface Session {
       passport: {id: string}
   }
@@ -52,16 +51,6 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
   fastify.register(dummyStrategyPlugin)
 }
 
-const customAuthChecker: AuthChecker<ContextType> = (
-  { root, args, context, info },
-  roles,
-) => {
-  if (context.getUser()) return true
-  else return false
-  // here we can read the user from context
-  // and check his permission in the db against the `roles` argument
-  // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
-}
+
 
 export default fastifyPlugin(authPlugin)
-export { customAuthChecker }
