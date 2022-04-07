@@ -76,6 +76,33 @@ export interface PostCreateInput {
   title: Scalars["String"];
 }
 
+export interface PostCreateManyAuthorInput {
+  content: Scalars["JSON"];
+  title: Scalars["String"];
+}
+
+export interface PostCreateManyAuthorInputEnvelope {
+  data: Array<PostCreateManyAuthorInput>;
+  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+}
+
+export interface PostCreateNestedManyWithoutAuthorInput {
+  connect?: Maybe<Array<PostWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<PostCreateOrConnectWithoutAuthorInput>>;
+  create?: Maybe<Array<PostCreateWithoutAuthorInput>>;
+  createMany?: Maybe<PostCreateManyAuthorInputEnvelope>;
+}
+
+export interface PostCreateOrConnectWithoutAuthorInput {
+  create: PostCreateWithoutAuthorInput;
+  where: PostWhereUniqueInput;
+}
+
+export interface PostCreateWithoutAuthorInput {
+  content: Scalars["JSON"];
+  title: Scalars["String"];
+}
+
 export interface PostListRelationFilter {
   every?: Maybe<PostWhereInput>;
   none?: Maybe<PostWhereInput>;
@@ -138,6 +165,16 @@ export interface StringNullableFilter {
   not?: Maybe<NestedStringNullableFilter>;
   notIn?: Maybe<Array<Scalars["String"]>>;
   startsWith?: Maybe<Scalars["String"]>;
+}
+
+export interface UserCreateInput {
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  id?: Maybe<Scalars["String"]>;
+  kind?: Maybe<UserKind>;
+  lastName: Scalars["String"];
+  password: Scalars["String"];
+  posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
 }
 
 export interface UserCreateNestedOneWithoutPostsInput {
@@ -223,7 +260,7 @@ export const generatedSchema = {
     currentUser: { __type: "User!" },
     post: { __type: "Post!", __args: { where: "PostWhereUniqueInput!" } },
     users: {
-      __type: "[User]!",
+      __type: "[User]",
       __args: {
         cursor: "UserWhereUniqueInput",
         distinct: "[UserScalarFieldEnum!]",
@@ -237,6 +274,9 @@ export const generatedSchema = {
   mutation: {
     __typename: { __type: "String!" },
     createPost: { __type: "Post!", __args: { data: "PostCreateInput!" } },
+    createUser: { __type: "User!", __args: { data: "UserCreateInput!" } },
+    deletePost: { __type: "Post!", __args: { where: "PostWhereUniqueInput!" } },
+    deleteUser: { __type: "User!", __args: { where: "UserWhereUniqueInput!" } },
     logout: { __type: "Boolean!" },
   },
   subscription: {},
@@ -287,6 +327,28 @@ export const generatedSchema = {
   },
   PostCreateInput: {
     author: { __type: "UserCreateNestedOneWithoutPostsInput" },
+    content: { __type: "JSON!" },
+    title: { __type: "String!" },
+  },
+  PostCreateManyAuthorInput: {
+    content: { __type: "JSON!" },
+    title: { __type: "String!" },
+  },
+  PostCreateManyAuthorInputEnvelope: {
+    data: { __type: "[PostCreateManyAuthorInput!]!" },
+    skipDuplicates: { __type: "Boolean" },
+  },
+  PostCreateNestedManyWithoutAuthorInput: {
+    connect: { __type: "[PostWhereUniqueInput!]" },
+    connectOrCreate: { __type: "[PostCreateOrConnectWithoutAuthorInput!]" },
+    create: { __type: "[PostCreateWithoutAuthorInput!]" },
+    createMany: { __type: "PostCreateManyAuthorInputEnvelope" },
+  },
+  PostCreateOrConnectWithoutAuthorInput: {
+    create: { __type: "PostCreateWithoutAuthorInput!" },
+    where: { __type: "PostWhereUniqueInput!" },
+  },
+  PostCreateWithoutAuthorInput: {
     content: { __type: "JSON!" },
     title: { __type: "String!" },
   },
@@ -345,6 +407,15 @@ export const generatedSchema = {
     password: { __type: "String!" },
   },
   UserCount: { __typename: { __type: "String!" }, posts: { __type: "Int!" } },
+  UserCreateInput: {
+    email: { __type: "String!" },
+    firstName: { __type: "String!" },
+    id: { __type: "String" },
+    kind: { __type: "UserKind" },
+    lastName: { __type: "String!" },
+    password: { __type: "String!" },
+    posts: { __type: "PostCreateNestedManyWithoutAuthorInput" },
+  },
   UserCreateNestedOneWithoutPostsInput: {
     connect: { __type: "UserWhereUniqueInput" },
     connectOrCreate: { __type: "UserCreateOrConnectWithoutPostsInput" },
@@ -404,12 +475,15 @@ export interface Query {
     skip?: Maybe<Scalars["Int"]>;
     take?: Maybe<Scalars["Int"]>;
     where?: Maybe<UserWhereInput>;
-  }) => Array<Maybe<User>>;
+  }) => Maybe<Array<Maybe<User>>>;
 }
 
 export interface Mutation {
   __typename: "Mutation" | undefined;
   createPost: (args: { data: PostCreateInput }) => Post;
+  createUser: (args: { data: UserCreateInput }) => User;
+  deletePost: (args: { where: PostWhereUniqueInput }) => Post;
+  deleteUser: (args: { where: UserWhereUniqueInput }) => User;
   logout: ScalarsEnums["Boolean"];
 }
 

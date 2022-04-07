@@ -3,11 +3,6 @@ import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
 import passport from 'fastify-passport'
 import LocalStrategy from 'passport-local'
 
-
-async function findUserbyEmail(email: string) {
-  return 
-}
-
 const dummyStrategyPlugin: FastifyPluginAsync = async (fastify) => {
   passport.use(new LocalStrategy(async function verify(username, password, done) {
     let user
@@ -17,10 +12,12 @@ const dummyStrategyPlugin: FastifyPluginAsync = async (fastify) => {
     } catch (e) {
       return done(e)
     }
+    //bcrypt.compare needed
     if (user.password !== password) return done(null, false, {message: 'Not a matching password'})
     
     return done(null, user)
   }))
+  
   fastify.post(
     '/api/login',
     { preValidation: passport.authenticate('local', { successRedirect: '/user', authInfo: false }) },

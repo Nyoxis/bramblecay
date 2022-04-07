@@ -2,8 +2,8 @@ import fastifyPlugin from 'fastify-plugin'
 import mercurius from 'mercurius'
 
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
-import { readFileSync } from 'fs'
-import { resolve } from 'path'
+
+import schema from './graphql'
 
 const context = async function (request: FastifyRequest, reply: FastifyReply) {
   // Return an object that will be available in your GraphQL resolvers
@@ -13,13 +13,14 @@ const context = async function (request: FastifyRequest, reply: FastifyReply) {
     logout: () => request.logOut(),
   }
 }
-const schemadir = resolve(__dirname, '../graphql/schema.gql')
-const schema = readFileSync(schemadir).toString('utf-8')
+
 const graphqlService: FastifyPluginAsync = async (fastify) => {
   fastify.register(mercurius, {
     path: '/api/graphql',
-    schema,
-    context: context
+    graphiql: true,
+    schema: await schema(),
+    context,
+    //validationRules: process.env.NODE_ENV === 'production' && [NoSchemaIntrospectionCustomRule],
   })
 }
 

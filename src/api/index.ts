@@ -7,7 +7,7 @@ import fastifyCors from 'fastify-cors'
 import authPlugin from './auth/authPlugin'
 
 const app = Fastify({
-  logger: true
+  logger: false
 })
 const port = 5000  //to env
 
@@ -23,7 +23,8 @@ const start = async () => {
       app.next('/')
       app.next('/user')
       app.next('/login')
-      app.next('/editor')
+      app.next('/editpost')
+      app.next('/posts/:title')
     })
   app.register(prismaClient)
   app.register(graphqlService)

@@ -2,35 +2,35 @@
  * GQLESS: You can safely modify this file and Query Fetcher based on your needs
  */
 
-import { createReactClient } from "@gqless/react";
+import { createReactClient } from '@gqless/react';
 
-import { createClient, QueryFetcher } from "gqless";
+import { createClient, QueryFetcher } from 'gqless';
 import {
   generatedSchema,
   scalarsEnumsHash,
   GeneratedSchema,
   SchemaObjectTypes,
   SchemaObjectTypesNames,
-} from "./schema.generated";
+} from './schema.generated'
 
 const queryFetcher: QueryFetcher = async function (query, variables) {
   // Modify "src/api/graphql/schema.gql" if needed
   const response = await fetch('http://localhost:5000/api/graphql', {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": 'application/json',
     },
     body: JSON.stringify({
       query,
       variables,
     }),
-    mode: "cors",
-  });
+    mode: 'cors',
+  })
 
-  const json = await response.json();
+  const json = await response.json()
 
-  return json;
-};
+  return json
+}
 
 export const client = createClient<
   GeneratedSchema,
@@ -40,10 +40,10 @@ export const client = createClient<
   schema: generatedSchema,
   scalarsEnumsHash,
   queryFetcher,
-});
+})
 
 export const { query, mutation, mutate, subscription, resolved, refetch } =
-  client;
+  client
 
 export const {
   graphql,
@@ -61,11 +61,13 @@ export const {
   defaults: {
     // Set this flag as "true" if your usage involves React Suspense
     // Keep in mind that you can overwrite it in a per-hook basis
-    suspense: false,
-
+    suspense: true,
+    
     // Set this flag based on your needs
     staleWhileRevalidate: false,
+    
+    refetchAfterHydrate: false,
   },
-});
+})
 
-export * from "./schema.generated";
+export * from './schema.generated'

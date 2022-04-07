@@ -1,32 +1,67 @@
-import { useState } from 'react'
-import { useQuery, useMutation } from '../gqless'
+import { useState, Suspense } from 'react'
+import { useQuery, query, useMutation, UserCreateInput, UserKind } from '../gqless'
 
-enum Kind {
-  ADMIN = 'ADMIN',
-  NORMAL = 'NORMAL'
+const UserList = () => {
+  const query = useQuery({
+    prepare({ prepass, query }) {
+      prepass(query.users, 'id', 'email', 'kind')
+    }
+  })
+  const [deleteUser] = useMutation(
+    (mutation, id: string) => {
+      const user = mutation.deleteUser({ where: { id } })
+      return user.id
+    }, {
+      refetchQueries: [query.users()]
+    }
+  )
+  return (
+    <div>
+      {
+        query.users().map(user => {
+          console.log(user.id)
+          return (
+            <div key={user.id}>
+              <p>{user.id} {user.email} {user.kind}</p>
+              <button onMouseDown={e => {e.preventDefault; deleteUser({ args: user.id })}}>delete</button>
+            </div>
+          )
+        })
+      }
+    </div>
+  )
 }
 
 const Index = () => {
-  const query = useQuery()
+  const [update] = useMutation(
+    (mutation, data: UserCreateInput) => {
+      const user = mutation.createUser({ data })
+      if (user) {
+        return user.id
+      }
+    }, {
+      refetchQueries: [query.users()]
+    }
+  )
   //$id: String, $email: String!, $age: Int!, $kind: UserKind!
   //{id: $id, email: $email, age: $age, kind: $kind}
   //const [updateResult, update] = useMutation({ suspense: false })
-  const [state, setState] = useState({
+  const [state, setState] = useState<UserCreateInput>({
     id: '',
     email: '',
     password: '',
     firstName: '',
     lastName: '',
-    kind: Kind.NORMAL
+    kind: UserKind.NORMAL
   })
-
+  
   const handleSubmit = (event) => {
     event.preventDefault()
-    //update({data: state})
+    update({ args: state })
   }
 
   return (
-    <div>
+    <>
       <div>Welcome to Next.js!</div>
       <form onSubmit={handleSubmit}>
         <label>
@@ -77,35 +112,27 @@ const Index = () => {
         <div>
           <input
             type="radio"
-            checked={state.kind===Kind.NORMAL}
+            checked={state.kind===UserKind.NORMAL}
             id="NormalKind"
             name="kind"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: Kind.NORMAL}})}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: UserKind.NORMAL}})}
           />
           <label htmlFor="NormalKind">normal</label>
           <input
             type="radio"
-            checked={state.kind===Kind.ADMIN}
+            checked={state.kind===UserKind.ADMIN}
             id="AdminKind"
             name="kind"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: Kind.ADMIN}})}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: UserKind.ADMIN}})}
           />
           <label htmlFor="AdminKind">admin</label>
         </div>
         <input type="submit" value="Отправить" />
       </form>
-      <div>
-        {
-          query.users().map(user => {
-            return (
-              <div key={user.id}>
-                <p>{user.id} {user.email}</p>
-              </div>
-            )
-          })
-        }
-      </div>
-    </div>
+      <Suspense fallback="Loading...">
+        <UserList/>
+      </Suspense>
+    </>
   )
 }
 export default Index

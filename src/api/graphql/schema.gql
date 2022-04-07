@@ -22,6 +22,9 @@ input JsonFilter {
 
 type Mutation {
   createPost(data: PostCreateInput!): Post!
+  createUser(data: UserCreateInput!): User!
+  deletePost(where: PostWhereUniqueInput!): Post!
+  deleteUser(where: UserWhereUniqueInput!): User!
   logout: Boolean!
 }
 
@@ -72,6 +75,33 @@ input PostCreateInput {
   title: String!
 }
 
+input PostCreateManyAuthorInput {
+  content: JSON!
+  title: String!
+}
+
+input PostCreateManyAuthorInputEnvelope {
+  data: [PostCreateManyAuthorInput!]!
+  skipDuplicates: Boolean
+}
+
+input PostCreateNestedManyWithoutAuthorInput {
+  connect: [PostWhereUniqueInput!]
+  connectOrCreate: [PostCreateOrConnectWithoutAuthorInput!]
+  create: [PostCreateWithoutAuthorInput!]
+  createMany: PostCreateManyAuthorInputEnvelope
+}
+
+input PostCreateOrConnectWithoutAuthorInput {
+  create: PostCreateWithoutAuthorInput!
+  where: PostWhereUniqueInput!
+}
+
+input PostCreateWithoutAuthorInput {
+  content: JSON!
+  title: String!
+}
+
 input PostListRelationFilter {
   every: PostWhereInput
   none: PostWhereInput
@@ -99,7 +129,7 @@ input PostWhereUniqueInput {
 type Query {
   currentUser: User!
   post(where: PostWhereUniqueInput!): Post!
-  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User]!
+  users(cursor: UserWhereUniqueInput, distinct: [UserScalarFieldEnum!], orderBy: [UserOrderByWithRelationInput!], skip: Int, take: Int, where: UserWhereInput): [User]
 }
 
 enum QueryMode {
@@ -154,6 +184,16 @@ type User {
 
 type UserCount {
   posts: Int!
+}
+
+input UserCreateInput {
+  email: String!
+  firstName: String!
+  id: String
+  kind: UserKind
+  lastName: String!
+  password: String!
+  posts: PostCreateNestedManyWithoutAuthorInput
 }
 
 input UserCreateNestedOneWithoutPostsInput {

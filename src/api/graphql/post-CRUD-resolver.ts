@@ -8,8 +8,13 @@ import {
   Authorized,
 } from 'type-graphql'
 
-import { Post, PostWhereUniqueInput, CreatePostArgs } from '@generated/type-graphql'
-import { ContextType } from './typegraphql'
+import {
+  Post,
+  PostWhereUniqueInput,
+  CreatePostArgs,
+  DeletePostArgs
+} from '@generated/type-graphql'
+import { ContextType } from '.'
 
 @Resolver()
 class PostCRUDResolver {
@@ -20,13 +25,20 @@ class PostCRUDResolver {
   ) {
     return context.prisma.post.findFirst({where})
   }
-
+  
   @Mutation(() => Post)
   async createPost(
     @Args() args: CreatePostArgs,
     @Ctx() context: ContextType
   ) {
     return await context.prisma.post.create({...args})
+  }
+  @Mutation(() => Post)
+  async deletePost(
+    @Args() args: DeletePostArgs,
+    @Ctx() context: ContextType
+  ) {
+    return await context.prisma.post.delete({...args})
   }
 }
 

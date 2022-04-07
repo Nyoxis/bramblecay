@@ -2,12 +2,14 @@ import {
   Resolver,
   Query,
   Mutation,
+  Arg,
   Ctx,
   Authorized,
+  Args,
 } from 'type-graphql'
 
-import { User } from '@generated/type-graphql'
-import { ContextType } from './typegraphql'
+import { User, CreatePostArgs, Post } from '@generated/type-graphql'
+import { ContextType } from '.'
 
 @Resolver()
 class UserResolvers {
@@ -17,8 +19,12 @@ class UserResolvers {
     return context.getUser()
   }
   
-  @Mutation()
-  logout(@Ctx() context: ContextType):boolean {
+  @Mutation(() => Boolean)
+  logout(
+    @Ctx() context: ContextType
+  ) {
+    console.log(`some user ${!context.getUser()}`)
+    if (!context.getUser()) return false
     context.logout()
     return true
   }

@@ -36,7 +36,7 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
     store: new RedisStore({ client: new Redis(REDIS_URI), ttl: SESSION_TTL }),
     secret: SECRET,
     cookie: { secure: false, maxAge: SESSION_TTL },
-  }) 
+  })
   // both passport initiations is required
   fastify.register(passport.initialize())
   fastify.register(passport.secureSession())

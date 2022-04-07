@@ -1,13 +1,14 @@
 import 'reflect-metadata'
+import * as path from 'path'
 import { buildSchema, AuthChecker } from 'type-graphql'
+
 import UserResolver from './user-resolver'
 import PostCRUDResolver from './post-CRUD-resolver'
 import UserCRUDResolver from './user-CRUD-resolver'
-import * as path from 'path'
 
-import { ContextType } from '../api/graphqlService'
+import { ContextType } from '../graphqlService'
 
-const customAuthChecker: AuthChecker<ContextType> = (
+const authChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
@@ -17,12 +18,16 @@ const customAuthChecker: AuthChecker<ContextType> = (
   // and check his permission in the db against the `roles` argument
   // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 }
+async function generate () {
+  const schema = await buildSchema({
+    resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
+    authChecker,
+    emitSchemaFile: path.resolve(__dirname, 'schema.gql')
+  })
+  
+  return schema
+}
 
-buildSchema({
-  resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
-  authChecker: customAuthChecker,
-  emitSchemaFile: path.resolve(__dirname, 'schema.gql')
-})
-
+export default generate
 export { type ContextType }
 
