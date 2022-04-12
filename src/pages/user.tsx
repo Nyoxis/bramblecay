@@ -1,20 +1,14 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import Router from 'next/router'
 import { useQuery, useMutation } from '../gqless'
 
 const UserData = () => {
-  const query = useQuery({
-    prepare({ prepass, query }) {
-      prepass(query.currentUser, 'id', 'email', 'firstName', 'lastName')
-    }
-  })
-
+  const query = useQuery()
   return (
     <ul>
       <li>{query.currentUser.id}</li>
       <li>{query.currentUser.email}</li>
-      <li>{query.currentUser.firstName}</li>
-      <li>{query.currentUser.lastName}</li>
+      <li>{query.currentUser.password}</li>
     </ul>
   )
 }
@@ -32,12 +26,13 @@ const User = () => {
     const result = await logout()
     if (result) Router.push('/login')
   }
-  
+  const SSR = typeof window === 'undefined'
+  console.log(!SSR)
   return (
     <>
       userPage
       <Suspense fallback="Loading...">
-        <UserData/>
+        {!SSR && <UserData/>}
       </Suspense>
       <button onClick={handleLogout}>logout</button>
     </>
