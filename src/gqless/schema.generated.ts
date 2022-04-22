@@ -23,6 +23,10 @@ export interface Scalars {
   JSON: any;
 }
 
+export interface EnumUserKindFieldUpdateOperationsInput {
+  set?: Maybe<UserKind>;
+}
+
 export interface EnumUserKindFilter {
   equals?: Maybe<UserKind>;
   in?: Maybe<Array<UserKind>>;
@@ -113,6 +117,25 @@ export interface PostOrderByRelationAggregateInput {
   _count?: Maybe<SortOrder>;
 }
 
+export interface PostOrderByWithRelationInput {
+  author?: Maybe<UserOrderByWithRelationInput>;
+  authorId?: Maybe<SortOrder>;
+  content?: Maybe<SortOrder>;
+  title?: Maybe<SortOrder>;
+}
+
+export enum PostScalarFieldEnum {
+  authorId = "authorId",
+  content = "content",
+  title = "title",
+}
+
+export interface PostUpdateInput {
+  author?: Maybe<UserUpdateOneWithoutPostsInput>;
+  content?: Maybe<Scalars["JSON"]>;
+  title?: Maybe<StringFieldUpdateOperationsInput>;
+}
+
 export interface PostWhereInput {
   AND?: Maybe<Array<PostWhereInput>>;
   NOT?: Maybe<Array<PostWhereInput>>;
@@ -135,6 +158,10 @@ export enum QueryMode {
 export enum SortOrder {
   asc = "asc",
   desc = "desc",
+}
+
+export interface StringFieldUpdateOperationsInput {
+  set?: Maybe<Scalars["String"]>;
 }
 
 export interface StringFilter {
@@ -226,6 +253,30 @@ export enum UserScalarFieldEnum {
   password = "password",
 }
 
+export interface UserUpdateOneWithoutPostsInput {
+  connect?: Maybe<UserWhereUniqueInput>;
+  connectOrCreate?: Maybe<UserCreateOrConnectWithoutPostsInput>;
+  create?: Maybe<UserCreateWithoutPostsInput>;
+  delete?: Maybe<Scalars["Boolean"]>;
+  disconnect?: Maybe<Scalars["Boolean"]>;
+  update?: Maybe<UserUpdateWithoutPostsInput>;
+  upsert?: Maybe<UserUpsertWithoutPostsInput>;
+}
+
+export interface UserUpdateWithoutPostsInput {
+  email?: Maybe<StringFieldUpdateOperationsInput>;
+  firstName?: Maybe<StringFieldUpdateOperationsInput>;
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  kind?: Maybe<EnumUserKindFieldUpdateOperationsInput>;
+  lastName?: Maybe<StringFieldUpdateOperationsInput>;
+  password?: Maybe<StringFieldUpdateOperationsInput>;
+}
+
+export interface UserUpsertWithoutPostsInput {
+  create: UserCreateWithoutPostsInput;
+  update: UserUpdateWithoutPostsInput;
+}
+
 export interface UserWhereInput {
   AND?: Maybe<Array<UserWhereInput>>;
   NOT?: Maybe<Array<UserWhereInput>>;
@@ -248,6 +299,7 @@ export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
   JSON: true,
   Boolean: true,
   String: true,
+  PostScalarFieldEnum: true,
   Int: true,
   QueryMode: true,
   SortOrder: true,
@@ -258,9 +310,20 @@ export const generatedSchema = {
   query: {
     __typename: { __type: "String!" },
     currentUser: { __type: "User!" },
-    post: { __type: "Post!", __args: { where: "PostWhereUniqueInput!" } },
+    post: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
+    posts: {
+      __type: "[Post!]!",
+      __args: {
+        cursor: "PostWhereUniqueInput",
+        distinct: "[PostScalarFieldEnum!]",
+        orderBy: "[PostOrderByWithRelationInput!]",
+        skip: "Int",
+        take: "Int",
+        where: "PostWhereInput",
+      },
+    },
     users: {
-      __type: "[User]",
+      __type: "[User!]!",
       __args: {
         cursor: "UserWhereUniqueInput",
         distinct: "[UserScalarFieldEnum!]",
@@ -275,11 +338,16 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     createPost: { __type: "Post!", __args: { data: "PostCreateInput!" } },
     createUser: { __type: "User!", __args: { data: "UserCreateInput!" } },
-    deletePost: { __type: "Post!", __args: { where: "PostWhereUniqueInput!" } },
-    deleteUser: { __type: "User!", __args: { where: "UserWhereUniqueInput!" } },
+    deletePost: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
+    deleteUser: { __type: "User", __args: { where: "UserWhereUniqueInput!" } },
     logout: { __type: "Boolean!" },
+    updatePost: {
+      __type: "Post",
+      __args: { data: "PostUpdateInput!", where: "PostWhereUniqueInput!" },
+    },
   },
   subscription: {},
+  EnumUserKindFieldUpdateOperationsInput: { set: { __type: "UserKind" } },
   EnumUserKindFilter: {
     equals: { __type: "UserKind" },
     in: { __type: "[UserKind!]" },
@@ -358,6 +426,17 @@ export const generatedSchema = {
     some: { __type: "PostWhereInput" },
   },
   PostOrderByRelationAggregateInput: { _count: { __type: "SortOrder" } },
+  PostOrderByWithRelationInput: {
+    author: { __type: "UserOrderByWithRelationInput" },
+    authorId: { __type: "SortOrder" },
+    content: { __type: "SortOrder" },
+    title: { __type: "SortOrder" },
+  },
+  PostUpdateInput: {
+    author: { __type: "UserUpdateOneWithoutPostsInput" },
+    content: { __type: "JSON" },
+    title: { __type: "StringFieldUpdateOperationsInput" },
+  },
   PostWhereInput: {
     AND: { __type: "[PostWhereInput!]" },
     NOT: { __type: "[PostWhereInput!]" },
@@ -368,6 +447,7 @@ export const generatedSchema = {
     title: { __type: "StringFilter" },
   },
   PostWhereUniqueInput: { title: { __type: "String" } },
+  StringFieldUpdateOperationsInput: { set: { __type: "String" } },
   StringFilter: {
     contains: { __type: "String" },
     endsWith: { __type: "String" },
@@ -446,6 +526,27 @@ export const generatedSchema = {
     is: { __type: "UserWhereInput" },
     isNot: { __type: "UserWhereInput" },
   },
+  UserUpdateOneWithoutPostsInput: {
+    connect: { __type: "UserWhereUniqueInput" },
+    connectOrCreate: { __type: "UserCreateOrConnectWithoutPostsInput" },
+    create: { __type: "UserCreateWithoutPostsInput" },
+    delete: { __type: "Boolean" },
+    disconnect: { __type: "Boolean" },
+    update: { __type: "UserUpdateWithoutPostsInput" },
+    upsert: { __type: "UserUpsertWithoutPostsInput" },
+  },
+  UserUpdateWithoutPostsInput: {
+    email: { __type: "StringFieldUpdateOperationsInput" },
+    firstName: { __type: "StringFieldUpdateOperationsInput" },
+    id: { __type: "StringFieldUpdateOperationsInput" },
+    kind: { __type: "EnumUserKindFieldUpdateOperationsInput" },
+    lastName: { __type: "StringFieldUpdateOperationsInput" },
+    password: { __type: "StringFieldUpdateOperationsInput" },
+  },
+  UserUpsertWithoutPostsInput: {
+    create: { __type: "UserCreateWithoutPostsInput!" },
+    update: { __type: "UserUpdateWithoutPostsInput!" },
+  },
   UserWhereInput: {
     AND: { __type: "[UserWhereInput!]" },
     NOT: { __type: "[UserWhereInput!]" },
@@ -467,7 +568,15 @@ export const generatedSchema = {
 export interface Query {
   __typename: "Query" | undefined;
   currentUser: User;
-  post: (args: { where: PostWhereUniqueInput }) => Post;
+  post: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
+  posts: (args?: {
+    cursor?: Maybe<PostWhereUniqueInput>;
+    distinct?: Maybe<Array<PostScalarFieldEnum>>;
+    orderBy?: Maybe<Array<PostOrderByWithRelationInput>>;
+    skip?: Maybe<Scalars["Int"]>;
+    take?: Maybe<Scalars["Int"]>;
+    where?: Maybe<PostWhereInput>;
+  }) => Array<Post>;
   users: (args?: {
     cursor?: Maybe<UserWhereUniqueInput>;
     distinct?: Maybe<Array<UserScalarFieldEnum>>;
@@ -475,16 +584,20 @@ export interface Query {
     skip?: Maybe<Scalars["Int"]>;
     take?: Maybe<Scalars["Int"]>;
     where?: Maybe<UserWhereInput>;
-  }) => Maybe<Array<Maybe<User>>>;
+  }) => Array<User>;
 }
 
 export interface Mutation {
   __typename: "Mutation" | undefined;
   createPost: (args: { data: PostCreateInput }) => Post;
   createUser: (args: { data: UserCreateInput }) => User;
-  deletePost: (args: { where: PostWhereUniqueInput }) => Post;
-  deleteUser: (args: { where: UserWhereUniqueInput }) => User;
+  deletePost: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
+  deleteUser: (args: { where: UserWhereUniqueInput }) => Maybe<User>;
   logout: ScalarsEnums["Boolean"];
+  updatePost: (args: {
+    data: PostUpdateInput;
+    where: PostWhereUniqueInput;
+  }) => Maybe<Post>;
 }
 
 export interface Subscription {
@@ -541,6 +654,7 @@ export type MakeNullable<T> = {
 };
 
 export interface ScalarsEnums extends MakeNullable<Scalars> {
+  PostScalarFieldEnum: PostScalarFieldEnum | undefined;
   QueryMode: QueryMode | undefined;
   SortOrder: SortOrder | undefined;
   UserKind: UserKind | undefined;

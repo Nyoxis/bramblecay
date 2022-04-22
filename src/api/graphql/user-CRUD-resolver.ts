@@ -12,12 +12,12 @@ import { ContextType } from '.'
 
 @Resolver()
 class UserCRUDResolver {
-  @Query(() => [User], {nullable: 'itemsAndList'})
+  @Query(() => [User])
   users(
     @Args() args: FindManyUserArgs,
     @Ctx() context: ContextType
   ) {
-    return context.prisma.user.findMany({...args})
+    return context.prisma.user.findMany({ ...args })
   }
   
   @Mutation(() => User)
@@ -25,15 +25,15 @@ class UserCRUDResolver {
     @Args() args: CreateUserArgs,
     @Ctx() context: ContextType
   ) {
-    return context.prisma.user.create({...args})
+    return context.prisma.user.create({ ...args })
   }
-
-  @Mutation(() => User)
+  
+  @Mutation(() => User, { nullable: true })
   deleteUser(
     @Args() args: DeleteUserArgs,
     @Ctx() context: ContextType
   ) {
-    return context.prisma.user.delete({...args})
+    return context.prisma.user.delete({ ...args })
   }
 }
 

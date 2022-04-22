@@ -1,3 +1,4 @@
+import { PostWhereInput } from './../../gqless/schema.generated';
 import {
   Resolver,
   Query,
@@ -10,20 +11,30 @@ import {
 
 import {
   Post,
-  PostWhereUniqueInput,
+  FindUniquePostArgs,
+  FindManyPostArgs,
   CreatePostArgs,
-  DeletePostArgs
+  UpdatePostArgs,
+  DeletePostArgs,
 } from '@generated/type-graphql'
 import { ContextType } from '.'
 
 @Resolver()
 class PostCRUDResolver {
-  @Query(() => Post)
+  @Query(() => Post, { nullable: true })
   post(
-    @Arg('where') where: PostWhereUniqueInput,
+    @Args() args: FindUniquePostArgs,
     @Ctx() context: ContextType
   ) {
-    return context.prisma.post.findFirst({where})
+    return context.prisma.post.findUnique({ ...args })
+  }
+  
+  @Query(() => [Post])
+  posts(
+    @Args() args: FindManyPostArgs,
+    @Ctx() context: ContextType
+  ) {
+    return context.prisma.post.findMany({ ...args })
   }
   
   @Mutation(() => Post)
@@ -31,14 +42,22 @@ class PostCRUDResolver {
     @Args() args: CreatePostArgs,
     @Ctx() context: ContextType
   ) {
-    return await context.prisma.post.create({...args})
+    return await context.prisma.post.create({ ...args })
   }
-  @Mutation(() => Post)
+  @Mutation(() => Post, { nullable: true })
+  async updatePost(
+    @Args() args: UpdatePostArgs,
+    @Ctx() context: ContextType
+  ) {
+    return await context.prisma.post.update({ ...args })
+  }
+  
+  @Mutation(() => Post, { nullable: true })
   async deletePost(
     @Args() args: DeletePostArgs,
     @Ctx() context: ContextType
   ) {
-    return await context.prisma.post.delete({...args})
+    return await context.prisma.post.delete({ ...args })
   }
 }
 

@@ -1,138 +1,36 @@
-import { useState, Suspense } from 'react'
-import { useQuery, query, useMutation, UserCreateInput, UserKind } from '../gqless'
+import Header from '../components/header'
+import TriMask from '../components/triMask'
+import Menu from '../components/menu'
+import Description from '../components/description'
 
-const UserList = () => {
-  const query = useQuery({
-    prepare({ prepass, query }) {
-      prepass(query.users, 'id', 'email', 'kind')
-    }
-  })
-  const [deleteUser] = useMutation(
-    (mutation, id: string) => {
-      const user = mutation.deleteUser({ where: { id } })
-      return user.id
-    }, {
-      refetchQueries: [query.users()]
-    }
-  )
+const Index = () => {
   return (
-    <div>
-      {
-        query.users().map(user => {
-          console.log(user.id)
-          return (
-            <div key={user.id}>
-              <p>{user.id} {user.email} {user.kind}</p>
-              <button onMouseDown={e => {e.preventDefault; deleteUser({ args: user.id })}}>delete</button>
-            </div>
-          )
-        })
-      }
+    <div className="bg-paper min-h-screen">
+      <Header heading={'Index Page'} className={'text-purple-900'}/>
+      <Menu
+        className="absolute w-full mt-[80px]"
+        list={[
+          { name: 'Животные', href: '/animalia' },
+          { name: 'Оборудование для животных', href: '/'},
+          { name: 'Растения', href: '/' },
+          { name: 'Оборудование для растений', href: '/'},
+        ]}
+      />
+      <TriMask
+        className="w-[600px] h-[600px] bg-cover bg-center ml-[62%] -mt-[50px]"
+        src={[
+          'https://www.promgidroponica.ru/sites/default/files/P6110006.jpg',
+          'https://media-cdn.tripadvisor.com/media/photo-s/10/1f/73/74/caption.jpg',
+          'https://rossaprimavera.ru/static/files/064cfacc62c6.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/a/ad/%D0%9F%D0%B5%D1%80%D0%BC%D1%81%D0%BA%D0%B8%D0%B9_%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BD%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D0%B9_%D1%83%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%82%D0%B5%D1%82._%D0%91%D0%BE%D1%82%D0%B0%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%B0%D0%B4_%D0%B8%D0%BC._%D0%93%D0%B5%D0%BD%D0%BA%D0%B5%D0%BB%D1%8F_-_panoramio_%282%29.jpg'
+        ]}
+      />
+      <div className="absolute h-[500px] xl:-mt-[200px] xl:ml-[calc(50%-350px-250px)] ml-[10%]">
+        <Description className="sticky top-[150px]" />
+      </div>
+      <div className="h-[2160px]"></div>
     </div>
   )
 }
 
-const Index = () => {
-  const [update] = useMutation(
-    (mutation, data: UserCreateInput) => {
-      const user = mutation.createUser({ data })
-      if (user) {
-        return user.id
-      }
-    }, {
-      refetchQueries: [query.users()]
-    }
-  )
-  //$id: String, $email: String!, $age: Int!, $kind: UserKind!
-  //{id: $id, email: $email, age: $age, kind: $kind}
-  //const [updateResult, update] = useMutation({ suspense: false })
-  const [state, setState] = useState<UserCreateInput>({
-    id: '',
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    kind: UserKind.NORMAL
-  })
-  
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    update({ args: state })
-  }
-
-  return (
-    <>
-      <div>Welcome to Next.js!</div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          id:
-          <input
-            type="text"
-            name="id"
-            value={state.id}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{id: e.target.value}})}
-          />
-        </label>
-        <label>
-          email:
-          <input
-            type="email"
-            name="email"
-            value={state.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{email: e.target.value}})}
-          />
-        </label>
-        <label>
-          firstName:
-          <input
-            type="text"
-            name="firstName"
-            value={state.firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{firstName: e.target.value}})}
-          />
-        </label>
-        <label>
-          lastName:
-          <input
-            type="text"
-            name="lastName"
-            value={state.lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{lastName: e.target.value}})}
-          />
-        </label>
-        <label>
-          password:
-          <input
-            type="password"
-            name="password"
-            value={state.password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{password: e.target.value}})}
-          />
-        </label>
-        <div>
-          <input
-            type="radio"
-            checked={state.kind===UserKind.NORMAL}
-            id="NormalKind"
-            name="kind"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: UserKind.NORMAL}})}
-          />
-          <label htmlFor="NormalKind">normal</label>
-          <input
-            type="radio"
-            checked={state.kind===UserKind.ADMIN}
-            id="AdminKind"
-            name="kind"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setState({...state, ...{kind: UserKind.ADMIN}})}
-          />
-          <label htmlFor="AdminKind">admin</label>
-        </div>
-        <input type="submit" value="Отправить" />
-      </form>
-      <Suspense fallback="Loading...">
-        <UserList/>
-      </Suspense>
-    </>
-  )
-}
 export default Index

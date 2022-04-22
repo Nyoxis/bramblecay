@@ -1,18 +1,17 @@
-import { useRouter } from 'next/router'
 import { Suspense } from 'react'
-import { useQuery } from '../../gqless'
+import { prepareReactRender, useHydrateCache, useQuery } from '../../gqless'
 
-const Post = () => {
-  const router = useRouter()
-  const title = Array.isArray(router.query.title) ? router.query.title[0] : router.query.title 
+import { GetServerSideProps } from 'next'
+import { PropsWithServerCache } from '@gqless/react'
 
-  const query = useQuery({
-    prepare({ prepass, query }) {
-      prepass(query.post, 'title', 'content')
-    }
+const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) => {
+  useHydrateCache({
+    cacheSnapshot,
+    shouldRefetch: false,
   })
-  const post = query.post({ where: { title: title } })
-  console.log(`not loading ${!query.$state.isLoading} && post undefined ${!post.title} post ${post.title}`)
+  const query = useQuery()
+  const post = query.post({ where: { title } })
+  
   if (!query.$state.isLoading && !post.title) return <>404</>
   return (
     <Suspense fallback="Loading...">
@@ -24,6 +23,20 @@ const Post = () => {
       </p>
     </Suspense>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (_ctx) => {
+  const title = Array.isArray(_ctx.query.title) ? _ctx.query.title[0] : _ctx.query.title
+  const { cacheSnapshot } = await prepareReactRender(
+    <Post title={title} />
+  )
+
+  return {
+    props: {
+      cacheSnapshot,
+      title,
+    }
+  }
 }
 
 export default Post

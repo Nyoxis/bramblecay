@@ -7,9 +7,7 @@ import session from '@mgcrea/fastify-session'
 import Redis from 'ioredis'
 import RedisStore from '@mgcrea/fastify-session-redis-store'
 
-import githubOAuth2Plugin from './githubOAuth2Plugin'
 import dummyStrategyPlugin from './dummyStrategy'
-
 
 import { User } from '@generated/type-graphql'
 

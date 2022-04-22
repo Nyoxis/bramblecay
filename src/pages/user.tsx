@@ -1,17 +1,16 @@
-import { Suspense, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import Router from 'next/router'
-import { useQuery, useMutation } from '../gqless'
+import { Suspense } from 'react'
+import { useMutation } from '../gqless'
 
-const UserData = () => {
-  const query = useQuery()
-  return (
-    <ul>
-      <li>{query.currentUser.id}</li>
-      <li>{query.currentUser.email}</li>
-      <li>{query.currentUser.password}</li>
-    </ul>
-  )
-}
+const UserData = dynamic(
+  () => import('../components/userData'),
+  {
+    // currently not working with noSSR
+    //suspense: true,
+    ssr: false,
+  }
+)
 
 const User = () => {
   const [logout] = useMutation(
@@ -26,14 +25,15 @@ const User = () => {
     const result = await logout()
     if (result) Router.push('/login')
   }
-  const SSR = typeof window === 'undefined'
-  console.log(!SSR)
+  
   return (
     <>
       userPage
-      <Suspense fallback="Loading...">
-        {!SSR && <UserData/>}
-      </Suspense>
+      {
+        <Suspense fallback={`Loading...`}>
+          <UserData />
+        </Suspense>
+      }
       <button onClick={handleLogout}>logout</button>
     </>
   )

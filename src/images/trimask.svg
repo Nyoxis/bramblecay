@@ -1,0 +1,41 @@
+<svg viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="radial" cx="50" cy="50" r="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0.6" stop-opacity="1"/>
+      <stop id="rim" offset="1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path
+    id="clover"
+    d="M73,89
+       c-17,11-29-9-38-13
+       S5,70 5,50 27,28 36,24 59,2 74,11 80,42 80,50 90,78 73,89
+       Z"
+  />
+  <path
+    id="rim"
+    d="M69,8
+       C39,-3 30,2 14,22
+       s-17,35 0,57 24,25 55,14 27,-28 27,-43
+       S99,19 69,8
+       Z"
+    fill="url(#radial)"
+  />
+  <style>
+  #clover {
+    animation: spin 5s infinite;
+    transform-origin: 50% 50%;
+  }
+  @keyframes spin {
+    40% {opacity: 0;}
+    to {transform: rotate(120deg);}
+  }
+  #rim {
+    animation: blink 5s infinite;
+  }
+  @keyframes blink {
+    25% {opacity: 0.2;}
+    40% {opacity: 0;}
+  }
+  </style>
+</svg>

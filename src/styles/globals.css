@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-cyrilic;
+  }
+  button, [type='button'], [type='submit'], [type='reset'] {
+    @apply p-sm;
+    @apply bg-black text-white;
+    @apply hover:bg-stamp hover:text-ink;
+    @apply active:bg-ink active:text-white;
+    @apply cursor-pointer;
+  }
+}
+@layer components {
+  .trimasked {
+    mask-image: svg-load('../images/trimask.svg');
+  }
+}
+@layer utilities {
+  #clover {
+    opacity: 0;
+    transform-origin: 50% 50%;
+  }
+  #rim {
+    opacity: 0;
+  }
+  .appear #clover {
+    animation: spinin ease-out 2s 1;
+    opacity: 1;
+  }
+  .fade #clover {
+    animation: spinout ease-in 3s 1;
+  }
+  .appear #rim {
+    animation: clearing 2s 1;
+    opacity: 1;
+  }
+  .fade #rim {
+    animation: fogging 3s 1;
+  }
+  @keyframes spinin {
+    from {
+      opacity: 0;
+      transform: rotate(-60deg);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+  }
+  @keyframes spinout {
+    from {
+      opacity: 1;
+      transform: rotate(0deg)
+    }
+    to {
+      opacity: 0;
+      transform: rotate(60deg);
+    }
+  }
+  @keyframes clearing {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  @keyframes fogging {
+    from {opacity: 1;}
+    to {opacity: 0;}
+  }
+}

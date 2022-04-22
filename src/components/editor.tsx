@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useMutation, PostCreateInput } from '../gqless'
+import { useMutation, PostUpdateInput, PostWhereUniqueInput, query } from '../gqless'
 import { createEditor, Descendant, Element } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 
@@ -17,13 +17,14 @@ if (typeof window !== 'undefined') {
   if (content) initialValue = JSON.parse(content)
 }
 
-const Editor = () => {
+const Editor = ({ title }: { title: string }) => {
   const [savePost, { isLoading, data, error }] = useMutation(
-    (mutation, data: PostCreateInput) => {
-      const post = mutation.createPost({ data })
+    (mutation, args: { data: PostUpdateInput, where: PostWhereUniqueInput }) => {
+      const post = mutation.updatePost(args)
       console.log({ data })
       return post.title
-    }
+    },
+    { refetchQueries: [query.post({ where: { title } })] }
   )
   // We want the editor to be stable across renders
   const [editor] = useState(() => customEditor(withReact(createEditor())))
@@ -85,7 +86,12 @@ const Editor = () => {
       <button
         onMouseDown={event => {
           event.preventDefault()
-          savePost({ args: { title: 'test', content: JSON.parse(localStorage.getItem('content')) } })
+          savePost({
+            args: {
+              data: { content: JSON.parse(localStorage.getItem('content')) },
+              where: { title }
+            }
+          })
         }}
       >
         Save

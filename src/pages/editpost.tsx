@@ -1,30 +1,53 @@
-import { useQuery } from '../gqless'
+import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import Editor from '../components/editor'
+import { prepareReactRender, useHydrateCache, useQuery } from '../gqless'
 
-const QueryPost = () => {
+import { GetServerSideProps } from 'next'
+import { PropsWithServerCache } from '@gqless/react'
+
+const Editor = dynamic(
+  () => import('../components/editor'),
+  {
+    //currently not supported with noSSR
+    //suspense: true,
+    ssr: false,
+  }
+)
+
+const EditPost = ({ cacheSnapshot, title }: PropsWithServerCache<{ title: string }>) => {
+  useHydrateCache({
+    cacheSnapshot,
+    
+    // If it should refetch everything after the component is mounted
+    // By default 'shouldRefetch' is `false` (You can change it in the 'defaults' option)
+    shouldRefetch: false,
+  })
   const query = useQuery()
   
-  const post = query.post({where: {title: 'test'}})
-  if (!post.title && !post.content) return <p>null</p>
   return (
-    <div>
-      {
-        JSON.stringify(post.content)
-      }
-    </div>
+    <>
+      <Suspense fallback={'Loading'}>
+        <Editor title={title}/>
+      </Suspense>
+      <div>
+        {query.post({where: { title } }) && JSON.stringify(query.post({where: { title } }).content)}
+      </div>
+    </>
   )
 }
 
-const EditPost = () => {
-  return (
-    <>
-      <Editor/>
-      <Suspense fallback="Loading...">
-        <QueryPost/>
-      </Suspense>
-    </>
+export const getServerSideProps: GetServerSideProps = async () => {
+  const title = 'test'
+  const { cacheSnapshot } = await prepareReactRender(
+    <EditPost title={title} />
   )
+  
+  return {
+    props: {
+      cacheSnapshot,
+      title
+    }
+  }
 }
 
 export default EditPost
