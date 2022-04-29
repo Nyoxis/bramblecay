@@ -1,8 +1,9 @@
+import Header from '../../components/header'
 const Animalia = () => {
   return (
-    <>
-      animalia
-    </>
+    <div className="bg-cardboard min-h-screen">
+      <Header heading="Animalia" hasBackground={false}/>
+    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 
 import Logo from './logo'
 
-const Header = ({ heading, className }: { heading: string, className?: string }) => {
+const Header = ({ heading, hasBackground = true, className }: { heading: string, hasBackground?: boolean, className?: string }) => {
   return (
     <>
       <header className="absolute top-[30px] left-1/4 flex flex-row gap-[4rem]">
@@ -20,7 +20,7 @@ const Header = ({ heading, className }: { heading: string, className?: string })
         </h1>
       </header>
       <svg
-        className="w-full h-[250px]"
+        className={`w-full h-[250px] ${hasBackground ? '' : 'hidden'}`}
         viewBox="0 0 1000 200"
         preserveAspectRatio="none"
       >
