@@ -1,12 +1,12 @@
-import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import { prepareReactRender, useHydrateCache, useQuery } from '../gqless'
+import dynamic from 'next/dynamic'
+import { prepareReactRender, useHydrateCache, useQuery } from '../../../gqless'
 
 import { GetServerSideProps } from 'next'
 import { PropsWithServerCache } from '@gqless/react'
 
 const Editor = dynamic(
-  () => import('../components/editor'),
+  () => import('../../../components/editor'),
   {
     //currently not supported with noSSR
     //suspense: true,
@@ -14,7 +14,7 @@ const Editor = dynamic(
   }
 )
 
-const EditPost = ({ cacheSnapshot, title }: PropsWithServerCache<{ title: string }>) => {
+const EditPost = ({ cacheSnapshot, title, isNew = false }: PropsWithServerCache<{ title?: string, isNew?: boolean }>) => {
   useHydrateCache({
     cacheSnapshot,
     
@@ -27,17 +27,24 @@ const EditPost = ({ cacheSnapshot, title }: PropsWithServerCache<{ title: string
   return (
     <>
       <Suspense fallback={'Loading'}>
-        <Editor title={title}/>
+        <Editor title={title} isNew={isNew}/>
       </Suspense>
-      <div>
-        {query.post({where: { title } }) && JSON.stringify(query.post({where: { title } }).content)}
-      </div>
+      { !isNew &&
+        <div>
+          {query.post({where: { title } }) && JSON.stringify(query.post({where: { title } }).content)}
+        </div>
+      }
     </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const title = 'test'
+export const getServerSideProps: GetServerSideProps = async (_ctx) => {
+  const title = Array.isArray(_ctx.query.title) ? _ctx.query.title[0] : _ctx.query.title
+  if (title === "Create") return {
+    props: {
+      isNew: true
+    }
+  }
   const { cacheSnapshot } = await prepareReactRender(
     <EditPost title={title} />
   )

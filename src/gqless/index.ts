@@ -65,7 +65,6 @@ export const {
     
     // Set this flag based on your needs
     staleWhileRevalidate: false,
-    
     refetchAfterHydrate: false,
   },
 })

@@ -6,7 +6,7 @@ import Description from '../components/description'
 const Index = () => {
   return (
     <div className="bg-paper min-h-screen">
-      <Header heading={'Index Page'} className={'text-purple-900'}/>
+      <Header className="text-purple-900" />
       <Menu
         className="absolute w-full mt-[80px]"
         list={[

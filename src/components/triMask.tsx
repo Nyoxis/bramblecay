@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 
-const TriMask = ({ src, className }: { src: string | string[], className?: string }) => {
+const TriMask: FC<{ src: string | string[], className?: string }> = ({ src, className }) => {
   const [state, setState] = useState<'appear' | 'fade' | undefined>(undefined)
   const [index, setIndex] = useState(0)
   const [imgs, setImgs] = useState<HTMLImageElement[]>([])

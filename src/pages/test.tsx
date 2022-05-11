@@ -24,7 +24,8 @@ const UserList = ({ cacheSnapshot }: PropsWithServerCache) => {
       const user = mutation.deleteUser({ where: { id } })
       return user.id
     }, {
-      refetchQueries: [query.users()]
+      refetchQueries: [query.users()],
+      awaitRefetchQueries: true,
     }
   )
 

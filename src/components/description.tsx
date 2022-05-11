@@ -1,4 +1,6 @@
-const Description = ({ className }: {className?: string}) => {
+import { FC } from 'react'
+
+const Description: FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={`${className} text-xl text-stamp w-[250px] leading-tight`}>
       <span className="font-latin text-3xl">Bramble Cay</span>

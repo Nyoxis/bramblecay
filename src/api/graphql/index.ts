@@ -18,16 +18,13 @@ const authChecker: AuthChecker<ContextType> = (
   // and check his permission in the db against the `roles` argument
   // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
 }
-async function generate () {
-  const schema = await buildSchema({
-    resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
-    authChecker,
-    emitSchemaFile: path.resolve(__dirname, 'schema.gql')
-  })
-  
-  return schema
-}
 
-export default generate
+const schema = buildSchema({
+  resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
+  authChecker,
+  emitSchemaFile: path.resolve(__dirname, 'schema.gql')
+})
+
+export default schema
 export { type ContextType }
 

@@ -1,5 +1,7 @@
+import { FC } from 'react'
 import Link from 'next/link'
-const Menu = ({ className, list }: { className: string, list: { name: string, href: string }[] }) => {
+
+const Menu: FC<{ className: string, list: { name: string, href: string }[] }> = ({ className, list }) => {
   return (
     <div className={`${className} grid grid-flow-col grid-rows-2 gap-xl justify-center`}>
       {list.map((item, index) => {

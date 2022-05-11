@@ -1,7 +1,8 @@
+import { FC, PropsWithChildren } from 'react'
 
 import Logo from './logo'
 
-const Header = ({ heading, hasBackground = true, className }: { heading: string, hasBackground?: boolean, className?: string }) => {
+const Header: FC<PropsWithChildren<{ heading?: string, hasBackground?: boolean, className?: string }>> = ({ children, heading='', hasBackground = true, className }) => {
   return (
     <>
       <header className="absolute top-[30px] left-1/4 flex flex-row gap-[4rem]">
@@ -18,6 +19,9 @@ const Header = ({ heading, hasBackground = true, className }: { heading: string,
         >
           {heading}
         </h1>
+        {
+          children
+        }
       </header>
       <svg
         className={`w-full h-[250px] ${hasBackground ? '' : 'hidden'}`}
