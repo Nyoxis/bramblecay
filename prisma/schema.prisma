@@ -11,8 +11,8 @@ generator typegraphql {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:admin@localhost:5432/postgres"
-}    //to env
+  url      = env("DATABASE_URL")
+}
 
 enum UserKind {
   NORMAL

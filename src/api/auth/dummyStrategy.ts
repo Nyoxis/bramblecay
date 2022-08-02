@@ -1,6 +1,6 @@
 import fastifyPlugin from 'fastify-plugin'
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
-import passport from 'fastify-passport'
+import passport from '@fastify/passport'
 import LocalStrategy from 'passport-local'
 
 const dummyStrategyPlugin: FastifyPluginAsync = async (fastify) => {

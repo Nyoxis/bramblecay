@@ -1,8 +1,8 @@
 import fastifyPlugin from 'fastify-plugin'
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
 
-import { Authenticator } from 'fastify-passport'
-import cookie from 'fastify-cookie'
+import { Authenticator } from '@fastify/passport'
+import cookie from '@fastify/cookie'
 import session from '@mgcrea/fastify-session'
 import Redis from 'ioredis'
 import RedisStore from '@mgcrea/fastify-session-redis-store'

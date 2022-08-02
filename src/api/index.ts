@@ -1,15 +1,15 @@
 import Fastify from 'fastify'
-import nextjs from 'fastify-nextjs'
+import nextjs from '@fastify/nextjs'
 import prismaClient from 'fastify-prisma-client'
 
 import graphqlService from './graphqlService'
-import fastifyCors from 'fastify-cors'
+import fastifyCors from '@fastify/cors'
 import authPlugin from './auth/authPlugin'
-
+import config from './config'
 const app = Fastify({
   logger: false
 })
-const port = 5000  //to env
+const port = config.PORT  //to env
 
 const start = async () => {
   /*
@@ -36,7 +36,7 @@ const start = async () => {
   app.register(authPlugin)
   try {
     //localhost
-    await app.listen(port)
+    await app.listen({port})
   } catch (err) {
     app.log.error(err)
     process.exit(1)
