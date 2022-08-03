@@ -8,7 +8,7 @@ import {
 } from 'type-graphql'
 
 import { User, FindManyUserArgs, CreateUserArgs, DeleteUserArgs } from '@generated/type-graphql'
-import { ContextType } from '.'
+import type { ContextType } from '.'
 
 @Resolver()
 class UserCRUDResolver {

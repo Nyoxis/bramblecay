@@ -12,7 +12,7 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
   const query = useQuery()
   const post = query.post({ where: { title } })
   
-  if (!query.$state.isLoading && !post.title) return <>404</>
+  if (!query.$state.isLoading && !post) return <>404</>
   return (
     <Suspense fallback="Loading...">
       <p>

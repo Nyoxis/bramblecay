@@ -14,11 +14,6 @@
     @apply cursor-pointer;
   }
 }
-@layer components {
-  .trimasked {
-    mask-image: svg-load('../images/trimask.svg');
-  }
-}
 @layer utilities {
   #clover {
     opacity: 0;

@@ -7,9 +7,8 @@ import fastifyCors from '@fastify/cors'
 import authPlugin from './auth/authPlugin'
 import config from './config'
 const app = Fastify({
-  logger: false
+  logger: true
 })
-const port = config.PORT  //to env
 
 const start = async () => {
   /*
@@ -20,23 +19,14 @@ const start = async () => {
   */
   app.register(nextjs)
     .after(() => {
-      app.next('/')
-      app.next('/user')
-      app.next('/login')
-      app.next('/posts')
-      app.next('/posts/:title')
-      app.next('/admin')
-      app.next('/admin/posts')
-      app.next('/admin/posts/:title')
-      app.next('/animalia')
-      app.next('/test')
+      app.next('/*')
     })
   app.register(prismaClient)
   app.register(graphqlService)
   app.register(authPlugin)
   try {
     //localhost
-    await app.listen({port})
+    await app.listen({ port: config.PORT })
   } catch (err) {
     app.log.error(err)
     process.exit(1)

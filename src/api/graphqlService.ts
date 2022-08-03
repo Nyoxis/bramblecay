@@ -15,10 +15,11 @@ const context = async function (request: FastifyRequest, reply: FastifyReply) {
 }
 
 const graphqlService: FastifyPluginAsync = async (fastify) => {
+  const schemaFile = await schema
   fastify.register(mercurius, {
     path: '/api/graphql',
     graphiql: true,
-    schema: await schema,
+    schema: schemaFile,
     context,
     //validationRules: process.env.NODE_ENV === 'production' && [NoSchemaIntrospectionCustomRule],
   })

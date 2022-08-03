@@ -1,4 +1,4 @@
-import { PostWhereInput } from './../../gqless/schema.generated';
+import { PostWhereUniqueInput } from './../../gqless/schema.generated';
 import {
   Resolver,
   Query,
@@ -17,7 +17,7 @@ import {
   UpdatePostArgs,
   DeletePostArgs,
 } from '@generated/type-graphql'
-import { ContextType } from '.'
+import type { ContextType } from '.'
 
 @Resolver()
 class PostCRUDResolver {

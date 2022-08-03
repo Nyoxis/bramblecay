@@ -1,5 +1,6 @@
 import 'reflect-metadata'
-import * as path from 'path'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 import { buildSchema, AuthChecker } from 'type-graphql'
 
 import UserResolver from './user-resolver'
@@ -22,7 +23,7 @@ const authChecker: AuthChecker<ContextType> = (
 const schema = buildSchema({
   resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
   authChecker,
-  emitSchemaFile: path.resolve(__dirname, 'schema.gql')
+  emitSchemaFile: fileURLToPath(new URL('schema.gql', import.meta.url)),
 })
 
 export default schema
