@@ -14,7 +14,7 @@ import type { ContextType } from '.'
 
 @Resolver()
 class UserResolvers {
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   currentUser(@Ctx() context: ContextType): User {
     const user = context.getUser()
     if (user) return user

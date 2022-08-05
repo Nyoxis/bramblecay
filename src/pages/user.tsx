@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import Router from 'next/router'
 import { Suspense } from 'react'
-import { useMutation } from '../gqless'
+import { useMutation } from '../gqty'
 
 const UserData = dynamic(
   () => import('../components/userData'),

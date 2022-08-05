@@ -13,7 +13,9 @@ const authChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
-  if (context.getUser()) return true
+  console.log(roles)
+  if (!roles.length && !!context.getUser()) return true
+  if (roles.some(role => role === context.getUser().kind)) return true
   else return false
   // here we can read the user from context
   // and check his permission in the db against the `roles` argument

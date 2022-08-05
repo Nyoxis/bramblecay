@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { useMutation, PostUpdateInput, PostWhereUniqueInput, PostCreateInput, query } from '../gqless'
+import { useMutation, PostUpdateInput, PostWhereUniqueInput, PostCreateInput, query } from '../gqty'
 import { createEditor, Descendant, Element } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 

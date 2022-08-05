@@ -18,7 +18,7 @@ const Login = () => {
     fetch('/api/login', requestOptions)
       .then(response => {
         if (!response.ok) return Promise.reject(response)
-        Router.push('/user')
+        Router.back()
       })
       .catch((err) => {
         err.json()

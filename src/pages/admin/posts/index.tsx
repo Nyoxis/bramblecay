@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { GetServerSideProps } from 'next'
-import { prepareReactRender } from '../../../gqless'
-import { PropsWithServerCache } from '@gqless/react'
+import { prepareReactRender } from '../../../gqty'
+import { PropsWithServerCache } from '@gqty/react'
 
 import PostsList from '../../../components/postsList'
 import { Suspense } from 'react'

@@ -7,10 +7,10 @@ import {
   UserKind,
   prepareReactRender,
   useHydrateCache,
-} from '../gqless'
+} from '../gqty'
 
 import { GetServerSideProps } from 'next'
-import { PropsWithServerCache } from '@gqless/react'
+import { PropsWithServerCache } from '@gqty/react'
 
 const UserList = ({ cacheSnapshot }: PropsWithServerCache) => {
   useHydrateCache({

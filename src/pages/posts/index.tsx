@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import { prepareReactRender } from '../../gqless'
+import { prepareReactRender } from '../../gqty'
 
 import { GetServerSideProps } from 'next'
-import { PropsWithServerCache } from '@gqless/react'
+import { PropsWithServerCache } from '@gqty/react'
 
 import PostsList from '../../components/postsList'
 

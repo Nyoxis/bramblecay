@@ -1,8 +1,9 @@
 import { Suspense } from 'react'
-import { prepareReactRender, useHydrateCache, useQuery } from '../../gqless'
+import Error from 'next/error'
+import { prepareReactRender, useHydrateCache, useQuery } from '../../gqty'
 
 import { GetServerSideProps } from 'next'
-import { PropsWithServerCache } from '@gqless/react'
+import { PropsWithServerCache } from '@gqty/react'
 
 const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) => {
   useHydrateCache({
@@ -12,7 +13,7 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
   const query = useQuery()
   const post = query.post({ where: { title } })
   
-  if (!query.$state.isLoading && !post) return <>404</>
+  if (!query.$state.isLoading && !post) return <Error statusCode={404} />
   return (
     <Suspense fallback="Loading...">
       <p>

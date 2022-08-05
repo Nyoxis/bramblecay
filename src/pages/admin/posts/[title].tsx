@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { prepareReactRender, useHydrateCache, useQuery } from '../../../gqless'
+import { prepareReactRender, useHydrateCache, useQuery } from '../../../gqty'
 
 import { GetServerSideProps } from 'next'
-import { PropsWithServerCache } from '@gqless/react'
+import { PropsWithServerCache } from '@gqty/react'
 
 const Editor = dynamic(
   () => import('../../../components/editor'),

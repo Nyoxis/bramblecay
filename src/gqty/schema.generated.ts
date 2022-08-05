@@ -1,8 +1,9 @@
 /**
- * GQLESS AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
+ * GQTY AUTO-GENERATED CODE: PLEASE DO NOT MODIFY MANUALLY
  */
 
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -24,58 +25,58 @@ export interface Scalars {
 }
 
 export interface EnumUserKindFieldUpdateOperationsInput {
-  set?: Maybe<UserKind>;
+  set?: InputMaybe<UserKind>;
 }
 
 export interface EnumUserKindFilter {
-  equals?: Maybe<UserKind>;
-  in?: Maybe<Array<UserKind>>;
-  not?: Maybe<NestedEnumUserKindFilter>;
-  notIn?: Maybe<Array<UserKind>>;
+  equals?: InputMaybe<UserKind>;
+  in?: InputMaybe<Array<UserKind>>;
+  not?: InputMaybe<NestedEnumUserKindFilter>;
+  notIn?: InputMaybe<Array<UserKind>>;
 }
 
 export interface JsonFilter {
-  equals?: Maybe<Scalars["JSON"]>;
-  not?: Maybe<Scalars["JSON"]>;
+  equals?: InputMaybe<Scalars["JSON"]>;
+  not?: InputMaybe<Scalars["JSON"]>;
 }
 
 export interface NestedEnumUserKindFilter {
-  equals?: Maybe<UserKind>;
-  in?: Maybe<Array<UserKind>>;
-  not?: Maybe<NestedEnumUserKindFilter>;
-  notIn?: Maybe<Array<UserKind>>;
+  equals?: InputMaybe<UserKind>;
+  in?: InputMaybe<Array<UserKind>>;
+  not?: InputMaybe<NestedEnumUserKindFilter>;
+  notIn?: InputMaybe<Array<UserKind>>;
 }
 
 export interface NestedStringFilter {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  not?: Maybe<NestedStringFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars["String"]>;
+  endsWith?: InputMaybe<Scalars["String"]>;
+  equals?: InputMaybe<Scalars["String"]>;
+  gt?: InputMaybe<Scalars["String"]>;
+  gte?: InputMaybe<Scalars["String"]>;
+  in?: InputMaybe<Array<Scalars["String"]>>;
+  lt?: InputMaybe<Scalars["String"]>;
+  lte?: InputMaybe<Scalars["String"]>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars["String"]>>;
+  startsWith?: InputMaybe<Scalars["String"]>;
 }
 
 export interface NestedStringNullableFilter {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  not?: Maybe<NestedStringNullableFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars["String"]>;
+  endsWith?: InputMaybe<Scalars["String"]>;
+  equals?: InputMaybe<Scalars["String"]>;
+  gt?: InputMaybe<Scalars["String"]>;
+  gte?: InputMaybe<Scalars["String"]>;
+  in?: InputMaybe<Array<Scalars["String"]>>;
+  lt?: InputMaybe<Scalars["String"]>;
+  lte?: InputMaybe<Scalars["String"]>;
+  not?: InputMaybe<NestedStringNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars["String"]>>;
+  startsWith?: InputMaybe<Scalars["String"]>;
 }
 
 export interface PostCreateInput {
-  author?: Maybe<UserCreateNestedOneWithoutPostsInput>;
+  author?: InputMaybe<UserCreateNestedOneWithoutPostsInput>;
   content: Scalars["JSON"];
   title: Scalars["String"];
 }
@@ -87,14 +88,14 @@ export interface PostCreateManyAuthorInput {
 
 export interface PostCreateManyAuthorInputEnvelope {
   data: Array<PostCreateManyAuthorInput>;
-  skipDuplicates?: Maybe<Scalars["Boolean"]>;
+  skipDuplicates?: InputMaybe<Scalars["Boolean"]>;
 }
 
 export interface PostCreateNestedManyWithoutAuthorInput {
-  connect?: Maybe<Array<PostWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<PostCreateOrConnectWithoutAuthorInput>>;
-  create?: Maybe<Array<PostCreateWithoutAuthorInput>>;
-  createMany?: Maybe<PostCreateManyAuthorInputEnvelope>;
+  connect?: InputMaybe<Array<PostWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<PostCreateOrConnectWithoutAuthorInput>>;
+  create?: InputMaybe<Array<PostCreateWithoutAuthorInput>>;
+  createMany?: InputMaybe<PostCreateManyAuthorInputEnvelope>;
 }
 
 export interface PostCreateOrConnectWithoutAuthorInput {
@@ -108,20 +109,20 @@ export interface PostCreateWithoutAuthorInput {
 }
 
 export interface PostListRelationFilter {
-  every?: Maybe<PostWhereInput>;
-  none?: Maybe<PostWhereInput>;
-  some?: Maybe<PostWhereInput>;
+  every?: InputMaybe<PostWhereInput>;
+  none?: InputMaybe<PostWhereInput>;
+  some?: InputMaybe<PostWhereInput>;
 }
 
 export interface PostOrderByRelationAggregateInput {
-  _count?: Maybe<SortOrder>;
+  _count?: InputMaybe<SortOrder>;
 }
 
 export interface PostOrderByWithRelationInput {
-  author?: Maybe<UserOrderByWithRelationInput>;
-  authorId?: Maybe<SortOrder>;
-  content?: Maybe<SortOrder>;
-  title?: Maybe<SortOrder>;
+  author?: InputMaybe<UserOrderByWithRelationInput>;
+  authorId?: InputMaybe<SortOrder>;
+  content?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
 }
 
 export enum PostScalarFieldEnum {
@@ -131,23 +132,23 @@ export enum PostScalarFieldEnum {
 }
 
 export interface PostUpdateInput {
-  author?: Maybe<UserUpdateOneWithoutPostsInput>;
-  content?: Maybe<Scalars["JSON"]>;
-  title?: Maybe<StringFieldUpdateOperationsInput>;
+  author?: InputMaybe<UserUpdateOneWithoutPostsInput>;
+  content?: InputMaybe<Scalars["JSON"]>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
 }
 
 export interface PostWhereInput {
-  AND?: Maybe<Array<PostWhereInput>>;
-  NOT?: Maybe<Array<PostWhereInput>>;
-  OR?: Maybe<Array<PostWhereInput>>;
-  author?: Maybe<UserRelationFilter>;
-  authorId?: Maybe<StringNullableFilter>;
-  content?: Maybe<JsonFilter>;
-  title?: Maybe<StringFilter>;
+  AND?: InputMaybe<Array<PostWhereInput>>;
+  NOT?: InputMaybe<Array<PostWhereInput>>;
+  OR?: InputMaybe<Array<PostWhereInput>>;
+  author?: InputMaybe<UserRelationFilter>;
+  authorId?: InputMaybe<StringNullableFilter>;
+  content?: InputMaybe<JsonFilter>;
+  title?: InputMaybe<StringFilter>;
 }
 
 export interface PostWhereUniqueInput {
-  title?: Maybe<Scalars["String"]>;
+  title?: InputMaybe<Scalars["String"]>;
 }
 
 export enum QueryMode {
@@ -161,53 +162,53 @@ export enum SortOrder {
 }
 
 export interface StringFieldUpdateOperationsInput {
-  set?: Maybe<Scalars["String"]>;
+  set?: InputMaybe<Scalars["String"]>;
 }
 
 export interface StringFilter {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  mode?: Maybe<QueryMode>;
-  not?: Maybe<NestedStringFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars["String"]>;
+  endsWith?: InputMaybe<Scalars["String"]>;
+  equals?: InputMaybe<Scalars["String"]>;
+  gt?: InputMaybe<Scalars["String"]>;
+  gte?: InputMaybe<Scalars["String"]>;
+  in?: InputMaybe<Array<Scalars["String"]>>;
+  lt?: InputMaybe<Scalars["String"]>;
+  lte?: InputMaybe<Scalars["String"]>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars["String"]>>;
+  startsWith?: InputMaybe<Scalars["String"]>;
 }
 
 export interface StringNullableFilter {
-  contains?: Maybe<Scalars["String"]>;
-  endsWith?: Maybe<Scalars["String"]>;
-  equals?: Maybe<Scalars["String"]>;
-  gt?: Maybe<Scalars["String"]>;
-  gte?: Maybe<Scalars["String"]>;
-  in?: Maybe<Array<Scalars["String"]>>;
-  lt?: Maybe<Scalars["String"]>;
-  lte?: Maybe<Scalars["String"]>;
-  mode?: Maybe<QueryMode>;
-  not?: Maybe<NestedStringNullableFilter>;
-  notIn?: Maybe<Array<Scalars["String"]>>;
-  startsWith?: Maybe<Scalars["String"]>;
+  contains?: InputMaybe<Scalars["String"]>;
+  endsWith?: InputMaybe<Scalars["String"]>;
+  equals?: InputMaybe<Scalars["String"]>;
+  gt?: InputMaybe<Scalars["String"]>;
+  gte?: InputMaybe<Scalars["String"]>;
+  in?: InputMaybe<Array<Scalars["String"]>>;
+  lt?: InputMaybe<Scalars["String"]>;
+  lte?: InputMaybe<Scalars["String"]>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<NestedStringNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars["String"]>>;
+  startsWith?: InputMaybe<Scalars["String"]>;
 }
 
 export interface UserCreateInput {
   email: Scalars["String"];
   firstName: Scalars["String"];
-  id?: Maybe<Scalars["String"]>;
-  kind?: Maybe<UserKind>;
+  id?: InputMaybe<Scalars["String"]>;
+  kind?: InputMaybe<UserKind>;
   lastName: Scalars["String"];
   password: Scalars["String"];
-  posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
+  posts?: InputMaybe<PostCreateNestedManyWithoutAuthorInput>;
 }
 
 export interface UserCreateNestedOneWithoutPostsInput {
-  connect?: Maybe<UserWhereUniqueInput>;
-  connectOrCreate?: Maybe<UserCreateOrConnectWithoutPostsInput>;
-  create?: Maybe<UserCreateWithoutPostsInput>;
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutPostsInput>;
+  create?: InputMaybe<UserCreateWithoutPostsInput>;
 }
 
 export interface UserCreateOrConnectWithoutPostsInput {
@@ -218,8 +219,8 @@ export interface UserCreateOrConnectWithoutPostsInput {
 export interface UserCreateWithoutPostsInput {
   email: Scalars["String"];
   firstName: Scalars["String"];
-  id?: Maybe<Scalars["String"]>;
-  kind?: Maybe<UserKind>;
+  id?: InputMaybe<Scalars["String"]>;
+  kind?: InputMaybe<UserKind>;
   lastName: Scalars["String"];
   password: Scalars["String"];
 }
@@ -230,18 +231,18 @@ export enum UserKind {
 }
 
 export interface UserOrderByWithRelationInput {
-  email?: Maybe<SortOrder>;
-  firstName?: Maybe<SortOrder>;
-  id?: Maybe<SortOrder>;
-  kind?: Maybe<SortOrder>;
-  lastName?: Maybe<SortOrder>;
-  password?: Maybe<SortOrder>;
-  posts?: Maybe<PostOrderByRelationAggregateInput>;
+  email?: InputMaybe<SortOrder>;
+  firstName?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  kind?: InputMaybe<SortOrder>;
+  lastName?: InputMaybe<SortOrder>;
+  password?: InputMaybe<SortOrder>;
+  posts?: InputMaybe<PostOrderByRelationAggregateInput>;
 }
 
 export interface UserRelationFilter {
-  is?: Maybe<UserWhereInput>;
-  isNot?: Maybe<UserWhereInput>;
+  is?: InputMaybe<UserWhereInput>;
+  isNot?: InputMaybe<UserWhereInput>;
 }
 
 export enum UserScalarFieldEnum {
@@ -254,22 +255,22 @@ export enum UserScalarFieldEnum {
 }
 
 export interface UserUpdateOneWithoutPostsInput {
-  connect?: Maybe<UserWhereUniqueInput>;
-  connectOrCreate?: Maybe<UserCreateOrConnectWithoutPostsInput>;
-  create?: Maybe<UserCreateWithoutPostsInput>;
-  delete?: Maybe<Scalars["Boolean"]>;
-  disconnect?: Maybe<Scalars["Boolean"]>;
-  update?: Maybe<UserUpdateWithoutPostsInput>;
-  upsert?: Maybe<UserUpsertWithoutPostsInput>;
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutPostsInput>;
+  create?: InputMaybe<UserCreateWithoutPostsInput>;
+  delete?: InputMaybe<Scalars["Boolean"]>;
+  disconnect?: InputMaybe<Scalars["Boolean"]>;
+  update?: InputMaybe<UserUpdateWithoutPostsInput>;
+  upsert?: InputMaybe<UserUpsertWithoutPostsInput>;
 }
 
 export interface UserUpdateWithoutPostsInput {
-  email?: Maybe<StringFieldUpdateOperationsInput>;
-  firstName?: Maybe<StringFieldUpdateOperationsInput>;
-  id?: Maybe<StringFieldUpdateOperationsInput>;
-  kind?: Maybe<EnumUserKindFieldUpdateOperationsInput>;
-  lastName?: Maybe<StringFieldUpdateOperationsInput>;
-  password?: Maybe<StringFieldUpdateOperationsInput>;
+  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+  firstName?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  kind?: InputMaybe<EnumUserKindFieldUpdateOperationsInput>;
+  lastName?: InputMaybe<StringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
 }
 
 export interface UserUpsertWithoutPostsInput {
@@ -278,75 +279,35 @@ export interface UserUpsertWithoutPostsInput {
 }
 
 export interface UserWhereInput {
-  AND?: Maybe<Array<UserWhereInput>>;
-  NOT?: Maybe<Array<UserWhereInput>>;
-  OR?: Maybe<Array<UserWhereInput>>;
-  email?: Maybe<StringFilter>;
-  firstName?: Maybe<StringFilter>;
-  id?: Maybe<StringFilter>;
-  kind?: Maybe<EnumUserKindFilter>;
-  lastName?: Maybe<StringFilter>;
-  password?: Maybe<StringFilter>;
-  posts?: Maybe<PostListRelationFilter>;
+  AND?: InputMaybe<Array<UserWhereInput>>;
+  NOT?: InputMaybe<Array<UserWhereInput>>;
+  OR?: InputMaybe<Array<UserWhereInput>>;
+  email?: InputMaybe<StringFilter>;
+  firstName?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  kind?: InputMaybe<EnumUserKindFilter>;
+  lastName?: InputMaybe<StringFilter>;
+  password?: InputMaybe<StringFilter>;
+  posts?: InputMaybe<PostListRelationFilter>;
 }
 
 export interface UserWhereUniqueInput {
-  email?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["String"]>;
 }
 
-export const scalarsEnumsHash: import("gqless").ScalarsEnumsHash = {
-  JSON: true,
+export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   Boolean: true,
-  String: true,
-  PostScalarFieldEnum: true,
   Int: true,
+  JSON: true,
+  PostScalarFieldEnum: true,
   QueryMode: true,
   SortOrder: true,
+  String: true,
   UserKind: true,
   UserScalarFieldEnum: true,
 };
 export const generatedSchema = {
-  query: {
-    __typename: { __type: "String!" },
-    currentUser: { __type: "User!" },
-    post: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
-    posts: {
-      __type: "[Post!]!",
-      __args: {
-        cursor: "PostWhereUniqueInput",
-        distinct: "[PostScalarFieldEnum!]",
-        orderBy: "[PostOrderByWithRelationInput!]",
-        skip: "Int",
-        take: "Int",
-        where: "PostWhereInput",
-      },
-    },
-    users: {
-      __type: "[User!]!",
-      __args: {
-        cursor: "UserWhereUniqueInput",
-        distinct: "[UserScalarFieldEnum!]",
-        orderBy: "[UserOrderByWithRelationInput!]",
-        skip: "Int",
-        take: "Int",
-        where: "UserWhereInput",
-      },
-    },
-  },
-  mutation: {
-    __typename: { __type: "String!" },
-    createPost: { __type: "Post!", __args: { data: "PostCreateInput!" } },
-    createUser: { __type: "User!", __args: { data: "UserCreateInput!" } },
-    deletePost: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
-    deleteUser: { __type: "User", __args: { where: "UserWhereUniqueInput!" } },
-    logout: { __type: "Boolean!" },
-    updatePost: {
-      __type: "Post",
-      __args: { data: "PostUpdateInput!", where: "PostWhereUniqueInput!" },
-    },
-  },
-  subscription: {},
   EnumUserKindFieldUpdateOperationsInput: { set: { __type: "UserKind" } },
   EnumUserKindFilter: {
     equals: { __type: "UserKind" },
@@ -563,10 +524,86 @@ export const generatedSchema = {
     email: { __type: "String" },
     id: { __type: "String" },
   },
+  mutation: {
+    __typename: { __type: "String!" },
+    createPost: { __type: "Post!", __args: { data: "PostCreateInput!" } },
+    createUser: { __type: "User!", __args: { data: "UserCreateInput!" } },
+    deletePost: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
+    deleteUser: { __type: "User", __args: { where: "UserWhereUniqueInput!" } },
+    logout: { __type: "Boolean!" },
+    updatePost: {
+      __type: "Post",
+      __args: { data: "PostUpdateInput!", where: "PostWhereUniqueInput!" },
+    },
+  },
+  query: {
+    __typename: { __type: "String!" },
+    currentUser: { __type: "User!" },
+    post: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
+    posts: {
+      __type: "[Post!]!",
+      __args: {
+        cursor: "PostWhereUniqueInput",
+        distinct: "[PostScalarFieldEnum!]",
+        orderBy: "[PostOrderByWithRelationInput!]",
+        skip: "Int",
+        take: "Int",
+        where: "PostWhereInput",
+      },
+    },
+    users: {
+      __type: "[User!]!",
+      __args: {
+        cursor: "UserWhereUniqueInput",
+        distinct: "[UserScalarFieldEnum!]",
+        orderBy: "[UserOrderByWithRelationInput!]",
+        skip: "Int",
+        take: "Int",
+        where: "UserWhereInput",
+      },
+    },
+  },
+  subscription: {},
 } as const;
 
+export interface Post {
+  __typename?: "Post";
+  authorId?: Maybe<ScalarsEnums["String"]>;
+  content: ScalarsEnums["JSON"];
+  title: ScalarsEnums["String"];
+}
+
+export interface User {
+  __typename?: "User";
+  _count?: Maybe<UserCount>;
+  email: ScalarsEnums["String"];
+  firstName: ScalarsEnums["String"];
+  id: ScalarsEnums["String"];
+  kind: ScalarsEnums["UserKind"];
+  lastName: ScalarsEnums["String"];
+  password: ScalarsEnums["String"];
+}
+
+export interface UserCount {
+  __typename?: "UserCount";
+  posts: ScalarsEnums["Int"];
+}
+
+export interface Mutation {
+  __typename?: "Mutation";
+  createPost: (args: { data: PostCreateInput }) => Post;
+  createUser: (args: { data: UserCreateInput }) => User;
+  deletePost: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
+  deleteUser: (args: { where: UserWhereUniqueInput }) => Maybe<User>;
+  logout: ScalarsEnums["Boolean"];
+  updatePost: (args: {
+    data: PostUpdateInput;
+    where: PostWhereUniqueInput;
+  }) => Maybe<Post>;
+}
+
 export interface Query {
-  __typename: "Query" | undefined;
+  __typename?: "Query";
   currentUser: User;
   post: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
   posts: (args?: {
@@ -587,59 +624,23 @@ export interface Query {
   }) => Array<User>;
 }
 
-export interface Mutation {
-  __typename: "Mutation" | undefined;
-  createPost: (args: { data: PostCreateInput }) => Post;
-  createUser: (args: { data: UserCreateInput }) => User;
-  deletePost: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
-  deleteUser: (args: { where: UserWhereUniqueInput }) => Maybe<User>;
-  logout: ScalarsEnums["Boolean"];
-  updatePost: (args: {
-    data: PostUpdateInput;
-    where: PostWhereUniqueInput;
-  }) => Maybe<Post>;
-}
-
 export interface Subscription {
-  __typename: "Subscription" | undefined;
-}
-
-export interface Post {
-  __typename: "Post" | undefined;
-  authorId?: Maybe<ScalarsEnums["String"]>;
-  content: ScalarsEnums["JSON"];
-  title: ScalarsEnums["String"];
-}
-
-export interface User {
-  __typename: "User" | undefined;
-  _count?: Maybe<UserCount>;
-  email: ScalarsEnums["String"];
-  firstName: ScalarsEnums["String"];
-  id: ScalarsEnums["String"];
-  kind: ScalarsEnums["UserKind"];
-  lastName: ScalarsEnums["String"];
-  password: ScalarsEnums["String"];
-}
-
-export interface UserCount {
-  __typename: "UserCount" | undefined;
-  posts: ScalarsEnums["Int"];
+  __typename?: "Subscription";
 }
 
 export interface SchemaObjectTypes {
-  Query: Query;
   Mutation: Mutation;
-  Subscription: Subscription;
   Post: Post;
+  Query: Query;
+  Subscription: Subscription;
   User: User;
   UserCount: UserCount;
 }
 export type SchemaObjectTypesNames =
-  | "Query"
   | "Mutation"
-  | "Subscription"
   | "Post"
+  | "Query"
+  | "Subscription"
   | "User"
   | "UserCount";
 

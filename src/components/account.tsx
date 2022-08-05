@@ -1,17 +1,44 @@
 import {useRouter} from 'next/router'
-import { useQuery, useMutation } from '../gqless'
+import { Suspense } from 'react';
+import { useTransactionQuery, useMutation } from '../gqty'
 
-const Account = () => {
+const AccountData = () => {
   const router = useRouter()
-  const query = useQuery()
-  console.log(query.currentUser)
-  if (query.currentUser === undefined && !query.$state.isLoading) {
-    router.push('/login')
+  const { data, error, isLoading } = useTransactionQuery(
+    (query, args: string) => {
+      return query.currentUser
+    },
+    {
+      variables: 'firstName',
+      // By default is 'cache-first'
+      fetchPolicy: 'network-only',
+      // Polling every 5 seconds
+      // By default is `true`
+      notifyOnNetworkStatusChange: false,
+      onCompleted(data) {if (data === null) router.push('/login')},
+      onError(error) {},
+      suspense: true,
+      // By default is `false`
+      skip: false,
+    }
+  )
+  if (error) {
+    return <p>Error! {error.message}</p>;
   }
   return (
-    <div>
+    <>
       <img></img>
-      <div>{query.currentUser.firstName}</div>
+      <div>{data.firstName}</div>
+    </>
+  )
+}
+
+const Account = () => {
+  return (
+    <div>
+      <Suspense fallback="Loading...">
+        <AccountData />
+      </Suspense>
     </div>
   )
 }

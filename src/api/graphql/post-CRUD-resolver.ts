@@ -1,4 +1,3 @@
-import { PostWhereUniqueInput } from './../../gqless/schema.generated';
 import {
   Resolver,
   Query,
@@ -36,7 +35,8 @@ class PostCRUDResolver {
   ) {
     return context.prisma.post.findMany({ ...args })
   }
-  
+
+  @Authorized(["ADMIN"])
   @Mutation(() => Post)
   async createPost(
     @Args() args: CreatePostArgs,
@@ -44,6 +44,7 @@ class PostCRUDResolver {
   ) {
     return await context.prisma.post.create({ ...args })
   }
+  @Authorized(["ADMIN"])
   @Mutation(() => Post, { nullable: true })
   async updatePost(
     @Args() args: UpdatePostArgs,
@@ -51,7 +52,7 @@ class PostCRUDResolver {
   ) {
     return await context.prisma.post.update({ ...args })
   }
-  
+  @Authorized(["ADMIN"])
   @Mutation(() => Post, { nullable: true })
   async deletePost(
     @Args() args: DeletePostArgs,

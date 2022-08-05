@@ -1,4 +1,4 @@
-import { useQuery } from '../gqless'
+import { useQuery } from '../gqty'
 
 const UserData = () => {
   const query = useQuery()
