@@ -1,4 +1,5 @@
 import {
+  ObjectType,
   Resolver,
   Query,
   Mutation,
@@ -6,6 +7,8 @@ import {
   Args,
   Ctx,
   Authorized,
+  Field,
+  ArgsType,
 } from 'type-graphql'
 
 import {
@@ -17,6 +20,15 @@ import {
   DeletePostArgs,
 } from '@generated/type-graphql'
 import type { ContextType } from '.'
+import { GraphQLUpload } from "graphql-upload"
+import type { FileUpload } from "graphql-upload"
+import { fileURLToPath } from 'url'
+
+@ArgsType()
+class updatePostWithFileArgs extends UpdatePostArgs {
+  @Field(() => GraphQLUpload)
+  file: FileUpload
+}
 
 @Resolver()
 class PostCRUDResolver {
@@ -44,13 +56,18 @@ class PostCRUDResolver {
   ) {
     return await context.prisma.post.create({ ...args })
   }
+  
   @Authorized(["ADMIN"])
   @Mutation(() => Post, { nullable: true })
   async updatePost(
-    @Args() args: UpdatePostArgs,
+    @Args() args: updatePostWithFileArgs,
     @Ctx() context: ContextType
   ) {
-    return await context.prisma.post.update({ ...args })
+    console.log(args.file.filename)
+    const { filename, createReadStream } = args.file
+    const rs = createReadStream()
+    const ws = context.createWriteStream(fileURLToPath(new URL('1.img', import.meta.url)))
+    return await context.pipeline(rs, ws)
   }
   @Authorized(["ADMIN"])
   @Mutation(() => Post, { nullable: true })

@@ -3,6 +3,7 @@ import { useQuery } from '../gqty'
 const UserData = () => {
   const query = useQuery()
   
+  if(!query.currentUser)return<div>not loaded</div>
   return (
     <ul>
       <li>{query.currentUser.id}</li>

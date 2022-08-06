@@ -15,9 +15,7 @@ const AdminPage = () => {
   return (
     <>
       <Header heading="Admin Page">
-        <Suspense fallback="Loading...">
-          <Account />
-        </Suspense>
+        <Account />
       </Header>
       <ul>
         <Link href="admin/posts">

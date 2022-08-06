@@ -1,34 +1,32 @@
-import {useRouter} from 'next/router'
-import { Suspense } from 'react';
+import { useRouter } from 'next/router'
+import { Suspense, useState } from 'react';
 import { useTransactionQuery, useMutation } from '../gqty'
 
 const AccountData = () => {
   const router = useRouter()
   const { data, error, isLoading } = useTransactionQuery(
-    (query, args: string) => {
-      return query.currentUser
+    (query) => {
+      return query.currentUser.firstName
     },
     {
-      variables: 'firstName',
       // By default is 'cache-first'
       fetchPolicy: 'network-only',
-      // Polling every 5 seconds
       // By default is `true`
       notifyOnNetworkStatusChange: false,
-      onCompleted(data) {if (data === null) router.push('/login')},
-      onError(error) {},
+      onCompleted(data) {},
+      onError(error) {if (error.message.startsWith('Access denied!')) router.push('./login') },
       suspense: true,
       // By default is `false`
       skip: false,
     }
   )
   if (error) {
-    return <p>Error! {error.message}</p>;
+    return <p>Error! {JSON.stringify(error.graphQLErrors)}</p>;
   }
   return (
     <>
       <img></img>
-      <div>{data.firstName}</div>
+      <div>{data}</div>
     </>
   )
 }
@@ -36,9 +34,7 @@ const AccountData = () => {
 const Account = () => {
   return (
     <div>
-      <Suspense fallback="Loading...">
-        <AccountData />
-      </Suspense>
+      <AccountData />
     </div>
   )
 }

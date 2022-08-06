@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { buildSchema, AuthChecker } from 'type-graphql'
 

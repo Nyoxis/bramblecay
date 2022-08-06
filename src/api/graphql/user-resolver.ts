@@ -1,4 +1,6 @@
 import {
+  ObjectType,
+  Field,
   Resolver,
   Query,
   Mutation,
@@ -9,16 +11,15 @@ import {
   createUnionType,
 } from 'type-graphql'
 
-import { User, CreatePostArgs, Post } from '@generated/type-graphql'
+import { User, UserKind, CreatePostArgs, Post } from '@generated/type-graphql'
 import type { ContextType } from '.'
 
-@Resolver()
 class UserResolvers {
+  @Authorized()
   @Query(() => User, { nullable: true })
   currentUser(@Ctx() context: ContextType): User {
     const user = context.getUser()
-    if (user) return user
-    return
+    return user
   }
   
   @Mutation(() => Boolean)

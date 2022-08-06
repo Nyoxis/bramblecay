@@ -22,6 +22,8 @@ export interface Scalars {
   Float: number;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 }
 
 export interface EnumUserKindFieldUpdateOperationsInput {
@@ -304,6 +306,7 @@ export const scalarsEnumsHash: import("gqty").ScalarsEnumsHash = {
   QueryMode: true,
   SortOrder: true,
   String: true,
+  Upload: true,
   UserKind: true,
   UserScalarFieldEnum: true,
 };
@@ -533,12 +536,16 @@ export const generatedSchema = {
     logout: { __type: "Boolean!" },
     updatePost: {
       __type: "Post",
-      __args: { data: "PostUpdateInput!", where: "PostWhereUniqueInput!" },
+      __args: {
+        data: "PostUpdateInput!",
+        file: "Upload!",
+        where: "PostWhereUniqueInput!",
+      },
     },
   },
   query: {
     __typename: { __type: "String!" },
-    currentUser: { __type: "User!" },
+    currentUser: { __type: "User" },
     post: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
     posts: {
       __type: "[Post!]!",
@@ -598,13 +605,14 @@ export interface Mutation {
   logout: ScalarsEnums["Boolean"];
   updatePost: (args: {
     data: PostUpdateInput;
+    file: Scalars["Upload"];
     where: PostWhereUniqueInput;
   }) => Maybe<Post>;
 }
 
 export interface Query {
   __typename?: "Query";
-  currentUser: User;
+  currentUser?: Maybe<User>;
   post: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
   posts: (args?: {
     cursor?: Maybe<PostWhereUniqueInput>;

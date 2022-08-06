@@ -6,7 +6,6 @@ import { Slate, Editable, withReact } from 'slate-react'
 
 import { CodeElement, DefaultElement, Leaf } from './blockRenderers'
 import { customEditor } from '../constants/customEditor'
-
 let initialValue: Element[] = [
   {
     type: 'paragraph',
@@ -21,7 +20,7 @@ if (typeof window !== 'undefined') {
 const Editor: FC<{ title?: string, isNew?: boolean }> = ({ title, isNew }) => {
   const router = useRouter()
   const [updatePost] = useMutation(
-    (mutation, args: { data: PostUpdateInput, where: PostWhereUniqueInput }) => {
+    (mutation, args: { data: PostUpdateInput, where: PostWhereUniqueInput, file: File}) => {
       const post = mutation.updatePost(args)
       return post.title
     },
@@ -72,6 +71,7 @@ const Editor: FC<{ title?: string, isNew?: boolean }> = ({ title, isNew }) => {
 
   const [value, setValue] = useState<Descendant[]>(initialValue)
   const [newTitle, setTitle] = useState(title)
+  const [file, setFile] = useState<File>()
   
   if (typeof window === 'undefined') return null
   return (
@@ -115,6 +115,13 @@ const Editor: FC<{ title?: string, isNew?: boolean }> = ({ title, isNew }) => {
         >
           Code Block
         </button>
+        <input
+          type='file'
+          onChange={event => {
+            event.preventDefault()
+            setFile(event.target.files[0])
+          }}
+        />
       </div>
       <Editable
         renderElement={renderElement}
@@ -123,6 +130,7 @@ const Editor: FC<{ title?: string, isNew?: boolean }> = ({ title, isNew }) => {
       <button
         onMouseDown={event => {
           event.preventDefault()
+          console.log(file.type)
           isNew
           ?createPost({
             args: {
@@ -132,6 +140,7 @@ const Editor: FC<{ title?: string, isNew?: boolean }> = ({ title, isNew }) => {
           :updatePost({
             args: {
               data: { title: { set: newTitle }, content: JSON.parse(localStorage.getItem('content')) },
+              file,
               where: { title }
             }
           })

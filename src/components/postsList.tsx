@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { useQuery, useHydrateCache, useMutation } from '../gqless'
-import { PropsWithServerCache } from '@gqless/react'
+import { useQuery, useHydrateCache, useMutation } from '../gqty'
+import { PropsWithServerCache } from '@gqty/react'
 import Link from 'next/link'
 
 const PostsList: FC<PropsWithServerCache<{ editable?: boolean }>> = ({ cacheSnapshot, editable = false }) => {

@@ -1,8 +1,10 @@
 import fastifyPlugin from 'fastify-plugin'
 import mercurius from 'mercurius'
-
+import MercuriusGQLUpload from 'mercurius-upload'
+import { createWriteStream } from 'fs'
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
-
+import util from 'util'
+import stream from 'stream'
 import schema from './graphql'
 
 const context = async function (request: FastifyRequest, reply: FastifyReply) {
@@ -11,6 +13,8 @@ const context = async function (request: FastifyRequest, reply: FastifyReply) {
     prisma: request.prisma,
     getUser: () => request.user,
     logout: () => request.logOut(),
+    pipeline: util.promisify(stream.pipeline),
+    createWriteStream,
   }
 }
 
@@ -23,6 +27,7 @@ const graphqlService: FastifyPluginAsync = async (fastify) => {
     context,
     //validationRules: process.env.NODE_ENV === 'production' && [NoSchemaIntrospectionCustomRule],
   })
+  fastify.register(MercuriusGQLUpload)
 }
 
   //extract Context type from promise

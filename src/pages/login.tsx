@@ -18,7 +18,10 @@ const Login = () => {
     fetch('/api/login', requestOptions)
       .then(response => {
         if (!response.ok) return Promise.reject(response)
-        Router.back()
+        return Promise.resolve(response)
+      })
+      .then(value => {
+        if (value.redirected) Router.back()
       })
       .catch((err) => {
         err.json()

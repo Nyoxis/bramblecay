@@ -5,7 +5,7 @@ import prismaClient from 'fastify-prisma-client'
 import graphqlService from './graphqlService'
 import fastifyCors from '@fastify/cors'
 import authPlugin from './auth/authPlugin'
-import config from './config'
+import config from '../config'
 const app = Fastify({
   logger: true
 })

@@ -30,7 +30,7 @@ type Mutation {
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
   logout: Boolean!
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updatePost(data: PostUpdateInput!, file: Upload!, where: PostWhereUniqueInput!): Post
 }
 
 input NestedEnumUserKindFilter {
@@ -200,6 +200,9 @@ input StringNullableFilter {
   notIn: [String!]
   startsWith: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   _count: UserCount
