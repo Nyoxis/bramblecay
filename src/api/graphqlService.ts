@@ -20,6 +20,7 @@ const context = async function (request: FastifyRequest, reply: FastifyReply) {
 
 const graphqlService: FastifyPluginAsync = async (fastify) => {
   const schemaFile = await schema
+  fastify.register(MercuriusGQLUpload)
   fastify.register(mercurius, {
     path: '/api/graphql',
     graphiql: true,
@@ -27,7 +28,6 @@ const graphqlService: FastifyPluginAsync = async (fastify) => {
     context,
     //validationRules: process.env.NODE_ENV === 'production' && [NoSchemaIntrospectionCustomRule],
   })
-  fastify.register(MercuriusGQLUpload)
 }
 
   //extract Context type from promise

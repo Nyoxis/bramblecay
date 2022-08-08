@@ -1,10 +1,14 @@
 import { Suspense } from 'react'
 import Error from 'next/error'
 import { prepareReactRender, useHydrateCache, useQuery } from '../../gqty'
+import Image from 'next/image'
 
-import { GetServerSideProps } from 'next'
-import { PropsWithServerCache } from '@gqty/react'
-
+import type { GetServerSideProps } from 'next'
+import type { ImageLoader } from 'next/image'
+import type { PropsWithServerCache } from '@gqty/react'
+const myLoader: ImageLoader = ({ src, width, quality }) => {
+  return `/public/${src}?w=${width}&q=${quality || 75}`
+}
 const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) => {
   useHydrateCache({
     cacheSnapshot,
@@ -22,6 +26,16 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
       <p>
         {JSON.stringify(post.content)}
       </p>
+      <p>
+        {JSON.stringify(post.images)}
+      </p>
+      <Image
+        loader={myLoader}
+        src={post.images[0]}
+        alt="me"
+        width="64"
+        height="64"
+      />
     </Suspense>
   )
 }

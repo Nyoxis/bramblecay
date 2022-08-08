@@ -22,11 +22,9 @@ const queryFetcher: QueryFetcher = async function (query, variables) {
     query,
     variables,
   })
-  
   if (extracted.files.size > 0) {
     const form = new FormData();
     form.append('operations', JSON.stringify(extracted.clone));
-    
     const map: Record<number, string[]> = {};
     let i = 0
     extracted.files.forEach((paths) => {
@@ -37,7 +35,6 @@ const queryFetcher: QueryFetcher = async function (query, variables) {
     extracted.files.forEach((_paths, file) => {
       form.append(++i + '', file as File);
     })
-    
     const response = await fetch(apiPath, {
       method: 'POST',
       headers: {},

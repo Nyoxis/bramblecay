@@ -71,17 +71,20 @@ input NestedStringNullableFilter {
 type Post {
   authorId: String
   content: JSON!
+  images: [String!]!
   title: String!
 }
 
 input PostCreateInput {
   author: UserCreateNestedOneWithoutPostsInput
   content: JSON!
+  images: PostCreateimagesInput
   title: String!
 }
 
 input PostCreateManyAuthorInput {
   content: JSON!
+  images: PostCreateimagesInput
   title: String!
 }
 
@@ -104,7 +107,12 @@ input PostCreateOrConnectWithoutAuthorInput {
 
 input PostCreateWithoutAuthorInput {
   content: JSON!
+  images: PostCreateimagesInput
   title: String!
+}
+
+input PostCreateimagesInput {
+  set: [String!]!
 }
 
 input PostListRelationFilter {
@@ -121,19 +129,27 @@ input PostOrderByWithRelationInput {
   author: UserOrderByWithRelationInput
   authorId: SortOrder
   content: SortOrder
+  images: SortOrder
   title: SortOrder
 }
 
 enum PostScalarFieldEnum {
   authorId
   content
+  images
   title
 }
 
 input PostUpdateInput {
   author: UserUpdateOneWithoutPostsInput
   content: JSON
+  images: PostUpdateimagesInput
   title: StringFieldUpdateOperationsInput
+}
+
+input PostUpdateimagesInput {
+  push: [String!]
+  set: [String!]
 }
 
 input PostWhereInput {

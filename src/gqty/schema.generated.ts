@@ -80,11 +80,13 @@ export interface NestedStringNullableFilter {
 export interface PostCreateInput {
   author?: InputMaybe<UserCreateNestedOneWithoutPostsInput>;
   content: Scalars["JSON"];
+  images?: InputMaybe<PostCreateimagesInput>;
   title: Scalars["String"];
 }
 
 export interface PostCreateManyAuthorInput {
   content: Scalars["JSON"];
+  images?: InputMaybe<PostCreateimagesInput>;
   title: Scalars["String"];
 }
 
@@ -107,7 +109,12 @@ export interface PostCreateOrConnectWithoutAuthorInput {
 
 export interface PostCreateWithoutAuthorInput {
   content: Scalars["JSON"];
+  images?: InputMaybe<PostCreateimagesInput>;
   title: Scalars["String"];
+}
+
+export interface PostCreateimagesInput {
+  set: Array<Scalars["String"]>;
 }
 
 export interface PostListRelationFilter {
@@ -124,19 +131,27 @@ export interface PostOrderByWithRelationInput {
   author?: InputMaybe<UserOrderByWithRelationInput>;
   authorId?: InputMaybe<SortOrder>;
   content?: InputMaybe<SortOrder>;
+  images?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 }
 
 export enum PostScalarFieldEnum {
   authorId = "authorId",
   content = "content",
+  images = "images",
   title = "title",
 }
 
 export interface PostUpdateInput {
   author?: InputMaybe<UserUpdateOneWithoutPostsInput>;
   content?: InputMaybe<Scalars["JSON"]>;
+  images?: InputMaybe<PostUpdateimagesInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
+}
+
+export interface PostUpdateimagesInput {
+  push?: InputMaybe<Array<Scalars["String"]>>;
+  set?: InputMaybe<Array<Scalars["String"]>>;
 }
 
 export interface PostWhereInput {
@@ -355,15 +370,18 @@ export const generatedSchema = {
     __typename: { __type: "String!" },
     authorId: { __type: "String" },
     content: { __type: "JSON!" },
+    images: { __type: "[String!]!" },
     title: { __type: "String!" },
   },
   PostCreateInput: {
     author: { __type: "UserCreateNestedOneWithoutPostsInput" },
     content: { __type: "JSON!" },
+    images: { __type: "PostCreateimagesInput" },
     title: { __type: "String!" },
   },
   PostCreateManyAuthorInput: {
     content: { __type: "JSON!" },
+    images: { __type: "PostCreateimagesInput" },
     title: { __type: "String!" },
   },
   PostCreateManyAuthorInputEnvelope: {
@@ -382,8 +400,10 @@ export const generatedSchema = {
   },
   PostCreateWithoutAuthorInput: {
     content: { __type: "JSON!" },
+    images: { __type: "PostCreateimagesInput" },
     title: { __type: "String!" },
   },
+  PostCreateimagesInput: { set: { __type: "[String!]!" } },
   PostListRelationFilter: {
     every: { __type: "PostWhereInput" },
     none: { __type: "PostWhereInput" },
@@ -394,12 +414,18 @@ export const generatedSchema = {
     author: { __type: "UserOrderByWithRelationInput" },
     authorId: { __type: "SortOrder" },
     content: { __type: "SortOrder" },
+    images: { __type: "SortOrder" },
     title: { __type: "SortOrder" },
   },
   PostUpdateInput: {
     author: { __type: "UserUpdateOneWithoutPostsInput" },
     content: { __type: "JSON" },
+    images: { __type: "PostUpdateimagesInput" },
     title: { __type: "StringFieldUpdateOperationsInput" },
+  },
+  PostUpdateimagesInput: {
+    push: { __type: "[String!]" },
+    set: { __type: "[String!]" },
   },
   PostWhereInput: {
     AND: { __type: "[PostWhereInput!]" },
@@ -577,6 +603,7 @@ export interface Post {
   __typename?: "Post";
   authorId?: Maybe<ScalarsEnums["String"]>;
   content: ScalarsEnums["JSON"];
+  images: Array<ScalarsEnums["String"]>;
   title: ScalarsEnums["String"];
 }
 
