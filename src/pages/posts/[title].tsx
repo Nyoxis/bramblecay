@@ -3,7 +3,7 @@ import Error from 'next/error'
 import { prepareReactRender, useHydrateCache, useQuery } from '../../gqty'
 import Image from 'next/image'
 
-import type { GetServerSideProps } from 'next'
+import type { GetStaticProps } from 'next'
 import type { ImageLoader } from 'next/image'
 import type { PropsWithServerCache } from '@gqty/react'
 const myLoader: ImageLoader = ({ src, width, quality }) => {
@@ -40,12 +40,12 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (_ctx) => {
+export const getStaticProps: GetStaticProps = async (_ctx) => {
   const title = Array.isArray(_ctx.query.title) ? _ctx.query.title[0] : _ctx.query.title
   const { cacheSnapshot } = await prepareReactRender(
     <Post title={title} />
   )
-
+  
   return {
     props: {
       cacheSnapshot,

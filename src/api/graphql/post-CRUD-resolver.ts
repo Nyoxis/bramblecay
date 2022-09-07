@@ -77,6 +77,13 @@ class PostCRUDResolver {
   ) {
     return await context.prisma.post.delete({ ...args })
   }
+  @Mutation(() => Boolean, { nullable: true })
+  async revalidate(
+    @Ctx() context: ContextType
+  ) {
+    context.revalidate()
+    return true
+  }
 }
 
 export default PostCRUDResolver

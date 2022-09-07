@@ -10,6 +10,7 @@ dotenv.config()
 interface ENV {
   NODE_ENV: boolean
   PORT: number | undefined
+  REVALIDATION_TOKEN: string | undefined
 }
 
 type NonNullableKey<T> = {
@@ -24,6 +25,7 @@ const getConfig = (): ENV => {
   return {
     NODE_ENV: process.env.NODE_ENV ? String(process.env.NODE_ENV) === 'production' : false,
     PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
+    REVALIDATION_TOKEN: process.env.REVALIDATION_TOKEN ? String(process.env.REVALIDATION_TOKEN) : undefined,
   }
 }
 

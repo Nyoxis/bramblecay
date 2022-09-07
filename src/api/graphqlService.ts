@@ -13,6 +13,7 @@ const context = async function (request: FastifyRequest, reply: FastifyReply) {
     prisma: request.prisma,
     getUser: () => request.user,
     logout: () => request.logOut(),
+    revalidate: () => reply.nextRender('posts/some%20text%20in%20json'),
     pipeline: util.promisify(stream.pipeline),
     createWriteStream,
   }
