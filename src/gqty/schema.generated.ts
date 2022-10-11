@@ -560,6 +560,7 @@ export const generatedSchema = {
     deletePost: { __type: "Post", __args: { where: "PostWhereUniqueInput!" } },
     deleteUser: { __type: "User", __args: { where: "UserWhereUniqueInput!" } },
     logout: { __type: "Boolean!" },
+    revalidate: { __type: "Boolean" },
     updatePost: {
       __type: "Post",
       __args: {
@@ -630,6 +631,7 @@ export interface Mutation {
   deletePost: (args: { where: PostWhereUniqueInput }) => Maybe<Post>;
   deleteUser: (args: { where: UserWhereUniqueInput }) => Maybe<User>;
   logout: ScalarsEnums["Boolean"];
+  revalidate?: Maybe<ScalarsEnums["Boolean"]>;
   updatePost: (args: {
     data: PostUpdateInput;
     file: Scalars["Upload"];
