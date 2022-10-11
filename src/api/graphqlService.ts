@@ -16,8 +16,6 @@ const graphqlService: FastifyPluginAsync = async (fastify) => {
       getUser: () => request.user,
       logout: () => request.logOut(),
       revalidate: async () => {
-        const page = await reply.nextRender('/api/revalidate?secret=token')
-        console.log(page)
       },
       pipeline: util.promisify(stream.pipeline),
       createWriteStream,
