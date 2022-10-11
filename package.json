@@ -2,11 +2,11 @@
   "name": "bramblecay",
   "version": "0.0.1",
   "description": "fullstack express graphql prisma next project",
-  "main": "dist/index.js",
+  "main": "dist/api/index.js",
   "scripts": {
     "generate": "prisma generate && node --experimental-specifier-resolution=node --loader ts-node/esm src/api/graphql && gqty generate",
-    "build": "tsc && next build",
-    "start": "node . $ next start",
+    "build": "tsc --build && next build",
+    "start": "node --experimental-specifier-resolution=node .",
     "dev": "nodemon --exec node --experimental-specifier-resolution=node --loader ts-node/esm src/api/index.ts"
   },
   "type": "module",

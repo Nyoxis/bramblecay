@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
 import Error from 'next/error'
-import { prepareReactRender, useHydrateCache, useQuery } from '../../gqty'
+import { prepareReactRender, useHydrateCache, useQuery, query, resolved } from '../../gqty'
 import Image from 'next/image'
 
-import type { GetStaticProps } from 'next'
+import type { GetStaticPaths, GetStaticProps } from 'next'
 import type { ImageLoader } from 'next/image'
 import type { PropsWithServerCache } from '@gqty/react'
 const myLoader: ImageLoader = ({ src, width, quality }) => {
@@ -40,8 +40,17 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
   )
 }
 
-export const getStaticProps: GetStaticProps = async (_ctx) => {
-  const title = Array.isArray(_ctx.query.title) ? _ctx.query.title[0] : _ctx.query.title
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+    // will wait for the HTML to be generated,identical to SSR (hence why blocking),
+    // and then be cached for future requests so it only happens once per path
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const title = Array.isArray(params.title) ? params.title[0] : params.title
   const { cacheSnapshot } = await prepareReactRender(
     <Post title={title} />
   )

@@ -67,7 +67,9 @@ class PostCRUDResolver {
     const rs = createReadStream()
     const ws = context.createWriteStream(fileURLToPath(new URL(`../../public/${filename}`, import.meta.url)))
     await context.pipeline(rs, ws)
-    return await context.prisma.post.update({ where: args.where, data: { ...args.data, images: [filename] } })
+    const result = await context.prisma.post.update({ where: args.where, data: { ...args.data, images: [filename] } })
+    await context.revalidate()
+    return result
   }
   @Authorized(["ADMIN"])
   @Mutation(() => Post, { nullable: true })

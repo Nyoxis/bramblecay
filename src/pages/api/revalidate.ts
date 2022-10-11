@@ -1,6 +1,8 @@
+import { NextApiHandler } from 'next'
 import config from '../../config'
 
-export default async function handler(req, res) {
+const handler: NextApiHandler = async (req, res) => {
+  console.log('hello')
   // Check for secret to confirm this is a valid request
   if (req.query.secret !== config.REVALIDATION_TOKEN) {
     return res.status(401).json({ message: 'Invalid token' })
@@ -9,7 +11,7 @@ export default async function handler(req, res) {
   try {
     // this should be the actual path not a rewritten path
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"
-    await res.revalidate('posts/some%20text%20in%20json')
+    await res.revalidate('/posts/bold')
     return res.json({ revalidated: true })
   } catch (err) {
     // If there was an error, Next.js will continue
@@ -17,3 +19,5 @@ export default async function handler(req, res) {
     return res.status(500).send('Error revalidating')
   }
 }
+
+export default handler

@@ -6,20 +6,24 @@ import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
 import util from 'util'
 import stream from 'stream'
 import schema from './graphql'
-
-const context = async function (request: FastifyRequest, reply: FastifyReply) {
-  // Return an object that will be available in your GraphQL resolvers
-  return {
-    prisma: request.prisma,
-    getUser: () => request.user,
-    logout: () => request.logOut(),
-    revalidate: () => reply.nextRender('posts/some%20text%20in%20json'),
-    pipeline: util.promisify(stream.pipeline),
-    createWriteStream,
-  }
-}
-
+import config from './../config'
+let context
 const graphqlService: FastifyPluginAsync = async (fastify) => {
+  context = async function (request: FastifyRequest, reply: FastifyReply) {
+    // Return an object that will be available in your GraphQL resolvers
+    return {
+      prisma: request.prisma,
+      getUser: () => request.user,
+      logout: () => request.logOut(),
+      revalidate: async () => {
+        const page = await reply.nextRender('/api/revalidate?secret=token')
+        console.log(page)
+      },
+      pipeline: util.promisify(stream.pipeline),
+      createWriteStream,
+    }
+  }
+  
   const schemaFile = await schema
   fastify.register(MercuriusGQLUpload)
   fastify.register(mercurius, {

@@ -12,7 +12,6 @@ const authChecker: AuthChecker<ContextType> = (
   { root, args, context, info },
   roles,
 ) => {
-  console.log(roles)
   if (!roles.length && !!context.getUser()) return true
   if (roles.some(role => role === context.getUser().kind)) return true
   else return false

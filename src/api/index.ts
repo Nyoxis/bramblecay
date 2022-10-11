@@ -9,7 +9,7 @@ import graphqlService from './graphqlService'
 import authPlugin from './auth/authPlugin'
 import config from '../config'
 const app = Fastify({
-  logger: true
+  logger: false
 })
 
 const start = async () => {
@@ -19,8 +19,27 @@ const start = async () => {
     origin: site
   })
   */
-  app.register(nextjs)
+  app.register(nextjs, { dev: false })
     .after(() => {
+      app.next('/api/revalidate', async (app, req, res) => {
+        console.log('hello')
+        // Check for secret to confirm this is a valid request
+        if (req.query.secret !== config.REVALIDATION_TOKEN) {
+          return res.status(401).json({ message: 'Invalid token' })
+        }
+        
+        try {
+          // this should be the actual path not a rewritten path
+          // e.g. for "/blog/[slug]" this should be "/blog/post-1"
+          req.
+          await app.revalidate('/posts/bold')
+          return res.json({ revalidated: true })
+        } catch (err) {
+          // If there was an error, Next.js will continue
+          // to show the last successfully generated page
+          return res.status(500).send('Error revalidating')
+        }
+      })
       app.next('/*')
     })
   app.register(prismaClient)

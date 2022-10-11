@@ -1,6 +1,6 @@
 import { FC, useState, useEffect, useCallback } from 'react'
-
-const Rendere: FC = () => {
+/*
+const Renderer: FC = () => {
   const renderElement = useCallback(props => {
     switch (props.element.type) {
       case 'code':
@@ -13,6 +13,8 @@ const Rendere: FC = () => {
     return <Leaf {...props} />
   }, [])
   return (
-    
+    <></>
   )
 }
+
+export default Renderer*/
