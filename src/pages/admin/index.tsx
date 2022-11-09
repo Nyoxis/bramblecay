@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import React from 'react'
 
 import Header from '../../components/header'
 const Account = dynamic(
@@ -19,9 +20,7 @@ const AdminPage = () => {
       </Header>
       <ul>
         <Link href="admin/posts">
-          <a>
-            posts
-          </a>
+          posts
         </Link>
       </ul>
     </>

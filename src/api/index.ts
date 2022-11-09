@@ -1,12 +1,11 @@
 import Fastify from 'fastify'
 import nextjs from '@fastify/nextjs'
-import fastifyCors from '@fastify/cors'
 import fastifyStatic from '@fastify/static'
 import prismaClient from 'fastify-prisma-client'
 import { fileURLToPath } from 'url'
 
-import graphqlService from './graphqlService'
-import authPlugin from './auth/authPlugin'
+import graphqlService from './graphql'
+import authPlugin from './passport'
 import config from '../config'
 const app = Fastify({
   logger: false
@@ -19,7 +18,7 @@ const start = async () => {
     origin: site
   })
   */
-  app.register(nextjs, { dev: false })
+  app.register(nextjs, { dev: config.NODE_ENV })
     .after(() => {
       app.next('/*')
     })

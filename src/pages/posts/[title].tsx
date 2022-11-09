@@ -1,11 +1,15 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import Error from 'next/error'
 import { prepareReactRender, useHydrateCache, useQuery, query, resolved } from '../../gqty'
 import Image from 'next/image'
+import { Node } from 'slate'
 
 import type { GetStaticPaths, GetStaticProps } from 'next'
 import type { ImageLoader } from 'next/image'
 import type { PropsWithServerCache } from '@gqty/react'
+
+import { ContentRenderer } from '../../constants/blockRenderers'
+
 const myLoader: ImageLoader = ({ src, width, quality }) => {
   return `/public/${src}?w=${width}&q=${quality || 75}`
 }
@@ -17,25 +21,20 @@ const Post = ({ cacheSnapshot, title }: PropsWithServerCache<{title: string}>) =
   const query = useQuery()
   const post = query.post({ where: { title } })
   
+  let jsxContent: JSX.Element = <></>
+  if (post.content && Node.isNode(post.content[0])) {
+    jsxContent = ContentRenderer(post.content)
+  }
+  
   if (!query.$state.isLoading && !post) return <Error statusCode={404} />
   return (
     <Suspense fallback="Loading...">
       <p>
         Post: {post.title}
       </p>
-      <p>
-        {JSON.stringify(post.content)}
-      </p>
-      <p>
-        {JSON.stringify(post.images)}
-      </p>
-      <Image
-        loader={myLoader}
-        src={post.images[0]}
-        alt="me"
-        width="64"
-        height="64"
-      />
+      <div>
+        {jsxContent}
+      </div>
     </Suspense>
   )
 }

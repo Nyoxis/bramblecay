@@ -1,31 +1,42 @@
-import 'reflect-metadata'
-import { fileURLToPath } from 'url'
-import { buildSchema, AuthChecker } from 'type-graphql'
+import fastifyPlugin from 'fastify-plugin'
+import mercurius from 'mercurius'
+import MercuriusGQLUpload from 'mercurius-upload'
+import { createWriteStream, rename, unlink } from 'fs'
+import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify'
+import util from 'util'
+import stream from 'stream'
+import schema from './schema'
+import config from '../../config'
 
-import UserResolver from './user-resolver'
-import PostCRUDResolver from './post-CRUD-resolver'
-import UserCRUDResolver from './user-CRUD-resolver'
-
-import { ContextType } from '../graphqlService'
-
-const authChecker: AuthChecker<ContextType> = (
-  { root, args, context, info },
-  roles,
-) => {
-  if (!roles.length && !!context.getUser()) return true
-  if (roles.some(role => role === context.getUser().kind)) return true
-  else return false
-  // here we can read the user from context
-  // and check his permission in the db against the `roles` argument
-  // that comes from the `@Authorized` decorator, eg. ["ADMIN", "MODERATOR"]
+const context = async function (request: FastifyRequest, reply: FastifyReply) {
+  // Return an object that will be available in your GraphQL resolvers
+  return {
+    prisma: request.prisma,
+    getUser: () => request.user,
+    logout: () => request.logOut(),
+    revalidate: (title: string) => {
+      fetch(`http://localhost:${config.PORT}/api/revalidate?secret=${config.REVALIDATION_TOKEN}&title=${title}`)
+    },
+    pipeline: util.promisify(stream.pipeline),
+    createWriteStream,
+    renameFile: rename,
+    unlinkFile: unlink,
+  }
+}
+const graphqlService: FastifyPluginAsync = async (fastify) => {
+  const schemaFile = await schema
+  fastify.register(MercuriusGQLUpload, {
+    maxFileSize: 200000, // 200kb
+  })
+  fastify.register(mercurius, {
+    path: '/api/graphql',
+    graphiql: true,
+    schema: schemaFile,
+    context,
+    //validationRules: process.env.NODE_ENV === 'production' && [NoSchemaIntrospectionCustomRule],
+  })
 }
 
-const schema = buildSchema({
-  resolvers: [UserResolver, UserCRUDResolver, PostCRUDResolver],
-  authChecker,
-  emitSchemaFile: fileURLToPath(new URL('schema.gql', import.meta.url)),
-})
-
-export default schema
-export { type ContextType }
-
+  //extract Context type from promise
+export type ContextType = Awaited<ReturnType<typeof context>>
+export default fastifyPlugin(graphqlService)

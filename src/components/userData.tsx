@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '../gqty'
 
 const UserData = () => {

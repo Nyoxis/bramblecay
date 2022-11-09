@@ -23,7 +23,7 @@ type Config = NonNullableKey<ENV>
 
 const getConfig = (): ENV => {
   return {
-    NODE_ENV: process.env.NODE_ENV ? String(process.env.NODE_ENV) === 'production' : false,
+    NODE_ENV: process.env.NODE_ENV ? String(process.env.NODE_ENV) === 'development' : false,
     PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
     REVALIDATION_TOKEN: process.env.REVALIDATION_TOKEN ? String(process.env.REVALIDATION_TOKEN) : undefined,
   }

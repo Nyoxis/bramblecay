@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { Suspense, useState } from 'react';
 import { useTransactionQuery, useMutation } from '../gqty'
+import React from 'react'
 
 const AccountData = () => {
   const router = useRouter()
@@ -13,7 +14,7 @@ const AccountData = () => {
       fetchPolicy: 'network-only',
       // By default is `true`
       notifyOnNetworkStatusChange: false,
-      onCompleted(data) {},
+      onCompleted(data) {return null},
       onError(error) {if (error.message.startsWith('Access denied!')) router.push('./login') },
       suspense: true,
       // By default is `false`

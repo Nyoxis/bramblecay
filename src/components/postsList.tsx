@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useQuery, useHydrateCache, useMutation } from '../gqty'
 import { PropsWithServerCache } from '@gqty/react'
 import Link from 'next/link'
+import React from 'react'
 
 const PostsList: FC<PropsWithServerCache<{ editable?: boolean }>> = ({ cacheSnapshot, editable = false }) => {
   useHydrateCache({
@@ -26,7 +27,7 @@ const PostsList: FC<PropsWithServerCache<{ editable?: boolean }>> = ({ cacheSnap
         return (
           <div key={post.title}>
             <Link href={`posts/${encodeURIComponent(post.title)}`}>
-              <a>{post.title}</a>
+              {post.title}
             </Link>
             {editable &&
               <button

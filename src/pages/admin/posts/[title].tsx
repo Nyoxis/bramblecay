@@ -1,11 +1,11 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { prepareReactRender, useHydrateCache, useQuery } from '../../../gqty'
+import { Post, prepareReactRender, useHydrateCache, useQuery } from '../../../gqty'
 
 import { GetServerSideProps } from 'next'
 import { PropsWithServerCache } from '@gqty/react'
 
-const Editor = dynamic(
+const SlateEditor = dynamic(
   () => import('../../../components/editor'),
   {
     //currently not supported with noSSR
@@ -23,15 +23,16 @@ const EditPost = ({ cacheSnapshot, title, isNew = false }: PropsWithServerCache<
     shouldRefetch: false,
   })
   const query = useQuery()
-  
+  let post: Post | undefined
+  if (!isNew) post = query.post({where: { title } })
   return (
     <>
       <Suspense fallback={'Loading'}>
-        <Editor title={title} isNew={isNew}/>
+        <SlateEditor title={title} isNew={isNew} content={post ? JSON.stringify(post.content) : undefined}/>
       </Suspense>
       { !isNew &&
         <div>
-          {query.post({where: { title } }) && JSON.stringify(query.post({where: { title } }).content)}
+          {post && JSON.stringify(post.content)}
         </div>
       }
     </>

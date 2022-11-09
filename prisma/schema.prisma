@@ -30,10 +30,17 @@ model User {
 }
 
 model Post {
-  title String @unique
+  title String @id @unique
   author User? @relation(fields: [authorId], references: [id])
   authorId String?
   content Json
-  /// @TypeGraphQL.omit(input: ["where"])
-  images String[]
+  images Image[]
+}
+
+model Image {
+  id String @default(cuid()) @id @unique
+  thumbnail String
+  description String?
+  uploadTime DateTime @default(now())
+  post Post[]
 }

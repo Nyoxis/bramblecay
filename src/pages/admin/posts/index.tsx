@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { GetServerSideProps } from 'next'
 import { prepareReactRender } from '../../../gqty'
 import { PropsWithServerCache } from '@gqty/react'
+import React from 'react'
 
 import PostsList from '../../../components/postsList'
 import { Suspense } from 'react'
@@ -13,9 +14,7 @@ const AdminPosts = ({ cacheSnapshot }: PropsWithServerCache) => {
         <PostsList cacheSnapshot={cacheSnapshot} editable={true} />
       </Suspense>
       <Link href="posts/Create">
-        <a>
-          Create Post
-        </a>
+        Create Post
       </Link>
     </>
   )

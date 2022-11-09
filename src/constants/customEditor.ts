@@ -2,20 +2,26 @@ import { Editor, Element, Text, Transforms } from 'slate'
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-type CustomElement = { type: 'paragraph' | 'code'; children: CustomText[] }
+import type { ImageElement } from './withImages'
+
+type CustomElement = { type: 'paragraph' | 'code'; children: CustomText[] } | ImageElement
 type CustomText = { text: string, bold?: boolean }
+
+export type EmptyText = {
+  text: string
+}
 
 declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor
     Element: CustomElement
-    Text: CustomText
+    Text: CustomText | EmptyText
   }
 }
 
 interface CustomEditor extends Editor {
-  isBoldMarkActive(): Boolean
-  isCodeBlockActive(): Boolean
+  isBoldMarkActive(): boolean
+  isCodeBlockActive(): boolean
   toggleBoldMark(): void
   toggleCodeBlock(): void
 }
@@ -23,10 +29,12 @@ interface CustomEditor extends Editor {
 const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomEditor) => {
   editor.isBoldMarkActive = () => {
     const [match] = Editor.nodes(editor, {
-      match: (n: Text) => n.bold === true,
+      match: (n: Text) => {
+        if ('bold' in n) return n.bold === true
+      },
       universal: true,
     })
-
+    
     return !!match
   }
   
@@ -58,3 +66,4 @@ const customEditor: (editor: Editor) => CustomEditor & Editor = (editor: CustomE
 }
 
 export { customEditor }
+export type { CustomEditor }
